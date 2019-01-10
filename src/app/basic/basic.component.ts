@@ -26,4 +26,9 @@ export class BasicComponent implements OnInit, AfterViewInit {
   change(event) {
     console.log(event);
   }
+
+  test() {
+    this.config['language'] = 'en';
+    this.ckeditor.reused();
+  }
 }
