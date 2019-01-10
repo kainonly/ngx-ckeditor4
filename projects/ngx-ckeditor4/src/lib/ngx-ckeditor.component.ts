@@ -7,7 +7,7 @@ import {NgxCkeditorOptions} from './ngx-ckeditor.options';
 
 @Component({
   selector: 'ngx-ckeditor',
-  template: `<textarea #editor></textarea>`,
+  template: `<textarea #editor [id]="this.id"></textarea>`,
   styles: [
       `textarea {
       display: none;
@@ -44,12 +44,26 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this._ngxCkeditorService.load();
+    this.id = (Math.random() * 1000).toFixed(0);
     if (this._options.config && isObject(this._options.config)) {
       Object.assign(this.config, this._options.config);
     }
   }
 
   ngAfterViewInit() {
+    this._factory();
+  }
+
+  ngOnDestroy() {
+    this._editor.removeAllListeners();
+  }
+
+  reused() {
+    this.id = (Math.random() * 1000).toFixed(0);
+    this._factory();
+  }
+
+  private _factory() {
     this._ngxCkeditorService.loaded.subscribe(() => {
       this._editor = this._ngxCkeditorService.CKEDITOR.replace(this.editorRef.nativeElement, this.config);
       this._editor.setData(this._value);
@@ -70,10 +84,6 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
         this.focus.emit(event);
       });
     });
-  }
-
-  ngOnDestroy() {
-    this._editor.removeAllListeners();
   }
 
   writeValue(value: string) {
