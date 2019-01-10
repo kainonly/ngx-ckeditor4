@@ -23,6 +23,7 @@
     "ckeditor": "^4.11.1",
     "core-js": "^2.5.4",
     "ng-zorro-antd": "^1.8.1",
+    "ngx-monaco-editor": "^6.0.0",
     "rxjs": "~6.2.0",
     "zone.js": "~0.8.26"
   },

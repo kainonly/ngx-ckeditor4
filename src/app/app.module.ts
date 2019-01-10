@@ -7,6 +7,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {NgZorroAntdModule, NZ_I18N, zh_CN} from 'ng-zorro-antd';
 import {registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
+import {MonacoEditorModule} from 'ngx-monaco-editor';
 import {NgxCkeditorModule} from 'dev-ngx-ckeditor4';
 
 registerLocaleData(zh);
@@ -27,6 +28,7 @@ import {StandardComponent} from './standard/standard.component';
     FormsModule,
     HttpClientModule,
     NgZorroAntdModule,
+    MonacoEditorModule.forRoot(),
     NgxCkeditorModule.forRoot({
       url: './assets/ckeditor/ckeditor.js'
     }),
