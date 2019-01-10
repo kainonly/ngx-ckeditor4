@@ -7,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class BasicComponent implements OnInit {
   text = '<p>sss</p>';
+  config: any = {};
 
   constructor() {
   }
@@ -14,9 +15,7 @@ export class BasicComponent implements OnInit {
   ngOnInit() {
   }
 
-  change(event) {
-  }
-
-  ready(event) {
+  test() {
+    this.config.language = 'en';
   }
 }

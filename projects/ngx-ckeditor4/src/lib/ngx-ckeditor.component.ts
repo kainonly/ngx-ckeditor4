@@ -1,11 +1,18 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
+import {NG_VALUE_ACCESSOR} from '@angular/forms';
+import {isObject} from 'util';
+
 import {NgxCkeditorService} from './ngx-ckeditor.service';
-import {fromEvent} from 'rxjs';
+import {NgxCkeditorOptions} from './ngx-ckeditor.options';
 
 @Component({
   selector: 'ngx-ckeditor',
   template: `<textarea #editor></textarea>`,
+  styles: [
+      `textarea {
+      display: none;
+    }`
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -16,7 +23,7 @@ import {fromEvent} from 'rxjs';
 })
 export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() id: string;
-  @Input() config: any;
+  @Input() config: any = {};
 
   @Output() ready: EventEmitter<any> = new EventEmitter();
   @Output() change: EventEmitter<any> = new EventEmitter();
@@ -31,16 +38,20 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   private onTouched: () => void;
   private disabled = false;
 
-  constructor(private ngxCkeditorService: NgxCkeditorService) {
+  constructor(private ngxCkeditorService: NgxCkeditorService,
+              private options: NgxCkeditorOptions) {
   }
 
   ngOnInit() {
     this.ngxCkeditorService.load();
+    if (this.options.config && isObject(this.options.config)) {
+      Object.assign(this.options, this.options.config);
+    }
   }
 
   ngAfterViewInit() {
     this.ngxCkeditorService.loaded.subscribe(() => {
-      this.editor = this.ngxCkeditorService.CKEDITOR.replace(this.editorRef.nativeElement, {});
+      this.editor = this.ngxCkeditorService.CKEDITOR.replace(this.editorRef.nativeElement, this.config);
       this.editor.setData(this.value);
       this.editor.on('change', () => {
         this.value = this.editor.getData();

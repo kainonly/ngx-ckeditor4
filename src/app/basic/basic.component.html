@@ -1,3 +1,5 @@
 <nz-card nzTitle="Basic Example">
-  <ngx-ckeditor [(ngModel)]="text" (change)="change($event)" (ready)="ready($event)"></ngx-ckeditor>
+  <button (click)="test()">切换语言</button>
+
+  <ngx-ckeditor [(ngModel)]="text" [config]="config"></ngx-ckeditor>
 </nz-card>
