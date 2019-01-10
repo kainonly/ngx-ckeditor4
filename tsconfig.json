@@ -16,6 +16,14 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ngx-ckeditor4": [
+        "dist/ngx-ckeditor4"
+      ],
+      "ngx-ckeditor4/*": [
+        "dist/ngx-ckeditor4/*"
+      ]
+    }
   }
 }
