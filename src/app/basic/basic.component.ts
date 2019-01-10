@@ -6,10 +6,16 @@ import {Component} from '@angular/core';
   styleUrls: ['./basic.component.scss']
 })
 export class BasicComponent {
-  text = '<p>asdasd</p>';
+  select = 0;
+  text = '';
+  config = {
+  };
+  editorOptions = {
+    theme: 'vs-light',
+    language: 'html',
+    readOnly: true
+  };
 
-  constructor() {
-  }
-
+  html_context = `<ngx-ckeditor [(ngModel)]="text"></ngx-ckeditor>`;
 
 }
