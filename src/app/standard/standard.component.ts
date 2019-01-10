@@ -13,5 +13,4 @@ export class StandardComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
