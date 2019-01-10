@@ -32,68 +32,68 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('editor') editorRef: ElementRef;
 
-  private editor: any;
-  private value: string;
-  private onChange: (value: string) => void;
-  private onTouched: () => void;
-  private disabled = false;
+  private _editor: any;
+  private _value: string;
+  private _onchange: (value: string) => void;
+  private _ontouched: () => void;
+  private _disabled = false;
 
-  constructor(private ngxCkeditorService: NgxCkeditorService,
-              private options: NgxCkeditorOptions) {
+  constructor(private _ngxCkeditorService: NgxCkeditorService,
+              private _options: NgxCkeditorOptions) {
   }
 
   ngOnInit() {
-    this.ngxCkeditorService.load();
-    if (this.options.config && isObject(this.options.config)) {
-      Object.assign(this.options, this.options.config);
+    this._ngxCkeditorService.load();
+    if (this._options.config && isObject(this._options.config)) {
+      Object.assign(this.config, this._options.config);
     }
   }
 
   ngAfterViewInit() {
-    this.ngxCkeditorService.loaded.subscribe(() => {
-      this.editor = this.ngxCkeditorService.CKEDITOR.replace(this.editorRef.nativeElement, this.config);
-      this.editor.setData(this.value);
-      this.editor.on('change', () => {
-        this.value = this.editor.getData();
-        this.onChange(this.value);
-        this.onTouched();
-        this.change.emit(this.value);
+    this._ngxCkeditorService.loaded.subscribe(() => {
+      this._editor = this._ngxCkeditorService.CKEDITOR.replace(this.editorRef.nativeElement, this.config);
+      this._editor.setData(this._value);
+      this._editor.on('change', () => {
+        this._value = this._editor.getData();
+        this._onchange(this._value);
+        this._ontouched();
+        this.change.emit(this._value);
       });
-      this.editor.on('instanceReady', (event) => {
+      this._editor.on('instanceReady', (event) => {
         this.ready.emit(event);
       });
-      this.editor.on('blur', (event) => {
+      this._editor.on('blur', (event) => {
         this.blur.emit(event);
-        this.onTouched();
+        this._ontouched();
       });
-      this.editor.on('focus', (event) => {
+      this._editor.on('focus', (event) => {
         this.focus.emit(event);
       });
     });
   }
 
   ngOnDestroy() {
-    this.editor.removeAllListeners();
+    this._editor.removeAllListeners();
   }
 
   writeValue(value: string) {
-    this.value = value || '';
-    if (this.editor) {
-      this.editor.setData(this.value);
-      const val = this.editor.getData();
-      this.editor.setData(val);
+    this._value = value || '';
+    if (this._editor) {
+      this._editor.setData(this._value);
+      const val = this._editor.getData();
+      this._editor.setData(val);
     }
   }
 
   registerOnChange(fn: (_: any) => {}) {
-    this.onChange = fn;
+    this._onchange = fn;
   }
 
   registerOnTouched(fn: () => {}) {
-    this.onTouched = fn;
+    this._ontouched = fn;
   }
 
   setDisabledState?(isDisabled: boolean) {
-    this.disabled = isDisabled;
+    this._disabled = isDisabled;
   }
 }
