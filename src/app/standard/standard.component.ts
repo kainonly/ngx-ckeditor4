@@ -6,6 +6,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./standard.component.scss']
 })
 export class StandardComponent implements OnInit {
+  text = '';
 
   constructor() {
   }

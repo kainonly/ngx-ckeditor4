@@ -6,6 +6,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./basic.component.scss']
 })
 export class BasicComponent implements OnInit {
+  text = '<p>sss</p>';
 
   constructor() {
   }
@@ -13,4 +14,9 @@ export class BasicComponent implements OnInit {
   ngOnInit() {
   }
 
+  change(event) {
+  }
+
+  ready(event) {
+  }
 }
