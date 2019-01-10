@@ -14,7 +14,7 @@ export class NgxCkeditorService {
               private options: NgxCkeditorOptions) {
   }
 
-  load() {
+  loadScripts() {
     if (!this.CKEDITOR) {
       const script = this.document.createElement('script');
       script.setAttribute('type', 'text/javascript');

@@ -1,4 +1,16 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  Input,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {NG_VALUE_ACCESSOR} from '@angular/forms';
 import {isObject} from 'util';
 
@@ -26,7 +38,6 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() config: any = {};
 
   @Output() ready: EventEmitter<any> = new EventEmitter();
-  @Output() change: EventEmitter<any> = new EventEmitter();
   @Output() focus: EventEmitter<any> = new EventEmitter();
   @Output() blur: EventEmitter<any> = new EventEmitter();
 
@@ -39,11 +50,12 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   private _disabled = false;
 
   constructor(private _ngxCkeditorService: NgxCkeditorService,
-              private _options: NgxCkeditorOptions) {
+              private _options: NgxCkeditorOptions,
+              private _zone: NgZone) {
   }
 
   ngOnInit() {
-    this._ngxCkeditorService.load();
+    this._ngxCkeditorService.loadScripts();
     this.id = (Math.random() * 1000).toFixed(0);
     if (this._options.config && isObject(this._options.config)) {
       Object.assign(this.config, this._options.config);
@@ -69,16 +81,19 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
       this._editor.setData(this._value);
       this._editor.on('change', () => {
         this._value = this._editor.getData();
-        this._onchange(this._value);
-        this._ontouched();
-        this.change.emit(this._value);
+        this._zone.run(() => {
+          this._onchange(this._value);
+          this._ontouched();
+        });
       });
       this._editor.on('instanceReady', (event) => {
         this.ready.emit(event);
       });
       this._editor.on('blur', (event) => {
         this.blur.emit(event);
-        this._ontouched();
+        this._zone.run(() => {
+          this._ontouched();
+        });
       });
       this._editor.on('focus', (event) => {
         this.focus.emit(event);
