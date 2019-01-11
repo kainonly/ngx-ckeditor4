@@ -4,7 +4,7 @@
     "start": "ng serve",
     "build": "ng build ngx-ckeditor4",
     "release": "cd dist/ngx-ckeditor4 && npm publish",
-    "build:docs": "ng build --prod"
+    "build:docs": "ng build --prod --baseHref=/ngx-ckeditor4/"
   },
   "private": true,
   "dependencies": {
