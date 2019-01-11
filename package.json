@@ -1,7 +1,7 @@
 {
   "name": "ngx-ckeditor4-demo",
   "scripts": {
-    "start": "ng serve",
+    "start": "ng serve --baseHref=/ngx-ckeditor4/",
     "build": "ng build ngx-ckeditor4",
     "release": "cd dist/ngx-ckeditor4 && npm publish",
     "build:docs": "ng build --prod --baseHref=/ngx-ckeditor4/"
