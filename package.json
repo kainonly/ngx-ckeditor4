@@ -1,13 +1,9 @@
 {
   "name": "ngx-ckeditor4-demo",
-  "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "build": "ng build ngx-ckeditor4",
+    "release": "cd dist/ngx-ckeditor4 && npm publish"
   },
   "private": true,
   "dependencies": {
@@ -23,7 +19,7 @@
     "ckeditor": "^4.11.1",
     "core-js": "^2.5.4",
     "ng-zorro-antd": "^1.8.1",
-    "ngx-monaco-editor": "^6.0.0",
+    "ngx-markdown": "^7.0.4",
     "rxjs": "~6.2.0",
     "zone.js": "~0.8.26"
   },
