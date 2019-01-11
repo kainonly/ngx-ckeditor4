@@ -1,3 +1,10 @@
+# NGX-CKEDITOR 4
+
+[![NPM version](https://badge.fury.io/js/ngx-ckeditor4.png)](http://badge.fury.io/js/ngx-ckeditor4)
+[![Downloads](https://img.shields.io/npm/dm/ngx-ckeditor4.svg?style=flat-square)](https://www.npmjs.com/package/ngx-ckeditor4)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg)](https://www.typescriptlang.org/)
+[![GitHub license](https://img.shields.io/badge/license-LGPL2.1-blue.svg)](https://raw.githubusercontent.com/kainonly/ngx-ckeditor4.js/master/LICENSE)
+
 ### NPM Package
 
 To add ngx-ckeditor4 library to your package.json use the following command.
