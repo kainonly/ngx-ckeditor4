@@ -12,7 +12,6 @@ import {NgxCkeditorModule} from 'dev-ngx-ckeditor4';
 registerLocaleData(zh);
 
 import {AppComponent} from './app.component';
-import {BasicComponent} from './basic/basic.component';
 import {StandardComponent} from './standard/standard.component';
 import {MarkdownModule} from 'ngx-markdown';
 import {SetupComponent} from './setup/setup.component';
@@ -20,7 +19,6 @@ import {SetupComponent} from './setup/setup.component';
 @NgModule({
   declarations: [
     AppComponent,
-    BasicComponent,
     StandardComponent,
     SetupComponent
   ],
