@@ -77,3 +77,7 @@ In you component
               (focus)="focus($event)"
               (blur)="blur($event)"></ngx-ckeditor>
 ```
+
+#### License
+
+License inherits Ckiditor's LGPL agreement,Licensed under the terms of LGPL. For full details about the license, please check the LICENSE file.
