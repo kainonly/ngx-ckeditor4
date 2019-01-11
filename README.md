@@ -1,4 +1,4 @@
-## Ngx-Ckeditor
+## NGX-CKEDITOR 4
 
 #### NPM Package
 
