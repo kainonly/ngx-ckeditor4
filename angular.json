@@ -30,18 +30,19 @@
                 "glob": "**/*",
                 "input": "./node_modules/ckeditor/",
                 "output": "/assets/ckeditor/"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/ngx-monaco-editor/assets/monaco/",
-                "output": "/assets/monaco/"
               }
             ],
             "styles": [
               "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/prismjs/themes/prism-okaidia.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/marked/lib/marked.js",
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-json.js",
+              "node_modules/prismjs/components/prism-typescript.js"
+            ]
           },
           "configurations": {
             "production": {

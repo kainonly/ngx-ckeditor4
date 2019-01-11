@@ -1,16 +1,9 @@
-<nz-card>
-  <nz-card-tab>
-    <nz-tabset nzSize="large" [(nzSelectedIndex)]="select">
-      <nz-tab nzTitle="Example"></nz-tab>
-      <nz-tab nzTitle="HTML"></nz-tab>
-    </nz-tabset>
-  </nz-card-tab>
+<nz-card nzTitle="Basic Example">
+  <ngx-ckeditor [(ngModel)]="text" [config]="config"></ngx-ckeditor>
+<!-- Basic Use -->
+  <markdown [src]="'/assets/docs/file.md'"></markdown>
 
-  <ng-container *ngIf="select===0">
-    <ngx-ckeditor [(ngModel)]="text" [config]="config"></ngx-ckeditor>
-  </ng-container>
-  <ng-container *ngIf="select===1">
-    <ngx-monaco-editor [ngModel]="html_context"
-                       [options]="editorOptions"></ngx-monaco-editor>
-  </ng-container>
 </nz-card>
+
+<!--<ngx-monaco-editor [ngModel]="html_context"-->
+<!--[options]="editorOptions"></ngx-monaco-editor>-->
