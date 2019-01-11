@@ -47,7 +47,6 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   private _value: string;
   private _onchange: (value: string) => void;
   private _ontouched: () => void;
-  private _disabled = false;
 
   constructor(private _ngxCkeditorService: NgxCkeditorService,
               private _options: NgxCkeditorOptions,
@@ -116,9 +115,5 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
   registerOnTouched(fn: () => {}) {
     this._ontouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean) {
-    this._disabled = isDisabled;
   }
 }

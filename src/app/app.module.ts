@@ -7,7 +7,7 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {NgZorroAntdModule, NZ_I18N, zh_CN} from 'ng-zorro-antd';
 import {registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
-import {NgxCkeditorModule} from 'dev-ngx-ckeditor4';
+import {NgxCkeditorModule} from 'ngx-ckeditor4';
 
 registerLocaleData(zh);
 
@@ -30,7 +30,7 @@ import {SetupComponent} from './setup/setup.component';
     NgZorroAntdModule,
     MarkdownModule.forRoot({loader: HttpClient}),
     NgxCkeditorModule.forRoot({
-      url: './assets/ckeditor/ckeditor.js'
+      url: 'https://cdn.bootcss.com/ckeditor/4.11.1/ckeditor.js'
     }),
     RouterModule.forRoot([
       {path: '', component: SetupComponent},
