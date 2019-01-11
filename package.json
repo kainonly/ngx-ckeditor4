@@ -3,7 +3,8 @@
   "scripts": {
     "start": "ng serve",
     "build": "ng build ngx-ckeditor4",
-    "release": "cd dist/ngx-ckeditor4 && npm publish"
+    "release": "cd dist/ngx-ckeditor4 && npm publish",
+    "build:docs": "ng build --prod"
   },
   "private": true,
   "dependencies": {
