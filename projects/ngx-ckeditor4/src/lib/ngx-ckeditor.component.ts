@@ -54,7 +54,6 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._ngxCkeditorService.loadScripts();
     this.id = (Math.random() * 1000).toFixed(0);
     if (this._options.config && isObject(this._options.config)) {
       Object.assign(this.config, this._options.config);

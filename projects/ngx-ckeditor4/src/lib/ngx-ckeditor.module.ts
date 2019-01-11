@@ -22,4 +22,8 @@ export class NgxCkeditorModule {
       ],
     };
   }
+
+  constructor(_ngxCkeditorService: NgxCkeditorService) {
+    _ngxCkeditorService.loadScripts();
+  }
 }
