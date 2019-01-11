@@ -7,20 +7,21 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {NgZorroAntdModule, NZ_I18N, zh_CN} from 'ng-zorro-antd';
 import {registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
-import {NgxCkeditorModule} from 'ngx-ckeditor4';
+import {NgxCkeditorModule} from 'dev-ngx-ckeditor4';
 
 registerLocaleData(zh);
 
 import {AppComponent} from './app.component';
-import {StandardComponent} from './standard/standard.component';
+import {HomeComponent} from './home/home.component';
+import {ExampleComponent} from './example/example.component';
 import {MarkdownModule} from 'ngx-markdown';
-import {SetupComponent} from './setup/setup.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    StandardComponent,
-    SetupComponent
+    HomeComponent,
+    ExampleComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,8 +34,8 @@ import {SetupComponent} from './setup/setup.component';
       url: 'https://cdn.bootcss.com/ckeditor/4.11.1/ckeditor.js'
     }),
     RouterModule.forRoot([
-      {path: '', component: SetupComponent},
-      {path: 'standard', component: StandardComponent}
+      {path: '', component: HomeComponent},
+      {path: 'example', component: ExampleComponent}
     ], {useHash: true})
   ],
   providers: [{provide: NZ_I18N, useValue: zh_CN}],
