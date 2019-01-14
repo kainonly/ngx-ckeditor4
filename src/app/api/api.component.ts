@@ -42,14 +42,19 @@ export class ApiComponent {
     type: 'EventEmitter<string>',
     default: '-'
   }, {
+    param: '(destroy)',
+    desc: 'The callback function when edit component destroy',
+    type: 'EventEmitter<string>',
+    default: '-'
+  }, {
     param: '(ngModelChange)',
     desc: 'The callback function when edit value change',
     type: 'EventEmitter<string>',
     default: '-'
   }, {
-    param: 'reused()',
+    param: 'reused(delay:number)',
     desc: 'Dynamically change ckeditor configuration using reused',
-    type: 'function():void',
-    default: '-'
+    type: 'Observable<boolean>',
+    default: 'delay=0'
   }];
 }

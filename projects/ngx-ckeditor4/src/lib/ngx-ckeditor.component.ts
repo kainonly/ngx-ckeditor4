@@ -16,6 +16,7 @@ import {isObject} from 'util';
 
 import {NgxCkeditorService} from './ngx-ckeditor.service';
 import {NgxCkeditorOptions} from './ngx-ckeditor.options';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'ngx-ckeditor',
@@ -37,6 +38,7 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() ready: EventEmitter<any> = new EventEmitter();
   @Output() focus: EventEmitter<any> = new EventEmitter();
   @Output() blur: EventEmitter<any> = new EventEmitter();
+  @Output() destroy: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('editor') editorRef: ElementRef;
 
@@ -80,12 +82,16 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
     this._destroy();
   }
 
-  reused() {
-    setTimeout(() => {
-      this._destroy();
-      this._setRandomId();
-      this._initConfig();
-      this._factory();
+  reused(delay = 0): Observable<boolean> {
+    return Observable.create(observer => {
+      setTimeout(() => {
+        this._destroy();
+        this._setRandomId();
+        this._initConfig();
+        this._factory();
+        observer.next(true);
+        observer.complete();
+      }, delay);
     });
   }
 
@@ -124,15 +130,20 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
             this.ready.emit(event);
           });
         });
+        this._editor.on('focus', (event) => {
+          this._zone.run(() => {
+            this.focus.emit(event);
+          });
+        });
         this._editor.on('blur', (event) => {
           this._zone.run(() => {
             this.blur.emit(event);
             this._ontouched();
           });
         });
-        this._editor.on('focus', (event) => {
+        this._editor.on('destroy', (event) => {
           this._zone.run(() => {
-            this.focus.emit(event);
+            this.destroy.emit(event);
           });
         });
       });
@@ -142,6 +153,7 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   private _destroy() {
     if (this._editor) {
       this._editor.destroy();
+      this._editor = null;
     }
   }
 }
