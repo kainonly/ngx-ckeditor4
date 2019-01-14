@@ -13,9 +13,10 @@ export class AppComponent implements OnInit, OnDestroy {
   active_path = '/';
   routerlinks = [
     {path: '/', label: 'Getting Started'},
-    {path: '/example', label: 'Example Ckeditor4'},
+    {path: '/example', label: 'Example Ckeditor'},
     {path: '/reused', label: 'Reused Ckeditor'},
-    {path: '/inline', label: 'Inline Ckeditor'}
+    {path: '/inline', label: 'Inline Ckeditor'},
+    {path: '/api', label: 'Api Docs'}
   ];
 
   constructor(private router: Router) {

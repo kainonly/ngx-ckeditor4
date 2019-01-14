@@ -1,0 +1,23 @@
+<nz-card nzTitle="Api Docs">
+  <nz-table #basicTable
+            [nzNoResult]="'No data'"
+            [nzHideOnSinglePage]="true"
+            [nzData]="dataSet">
+    <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td><b>{{data.param}}</b></td>
+      <td>{{data.desc}}</td>
+      <td>{{data.type}}</td>
+      <td>{{data.default}}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</nz-card>

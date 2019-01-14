@@ -18,6 +18,7 @@ import {ExampleComponent} from './example/example.component';
 import {MarkdownModule} from 'ngx-markdown';
 import {ReusedComponent} from './reused/reused.component';
 import {InlineComponent} from './inline/inline.component';
+import {ApiComponent} from './api/api.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {InlineComponent} from './inline/inline.component';
     ExampleComponent,
     ReusedComponent,
     InlineComponent,
+    ApiComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,8 @@ import {InlineComponent} from './inline/inline.component';
       {path: '', component: HomeComponent},
       {path: 'example', component: ExampleComponent},
       {path: 'reused', component: ReusedComponent},
-      {path: 'inline', component: InlineComponent}
+      {path: 'inline', component: InlineComponent},
+      {path: 'api', component: ApiComponent}
     ], {useHash: true})
   ],
   providers: [{provide: NZ_I18N, useValue: zh_CN}],
