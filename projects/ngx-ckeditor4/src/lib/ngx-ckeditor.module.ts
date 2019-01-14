@@ -14,6 +14,7 @@ import {NgxCkeditorService} from './ngx-ckeditor.service';
 })
 export class NgxCkeditorModule {
   static forRoot(options: NgxCkeditorOptions): ModuleWithProviders {
+
     return {
       ngModule: NgxCkeditorModule,
       providers: [
@@ -24,6 +25,8 @@ export class NgxCkeditorModule {
   }
 
   constructor(_ngxCkeditorService: NgxCkeditorService) {
-    _ngxCkeditorService.loadScripts();
+    if (!_ngxCkeditorService.setup) {
+      _ngxCkeditorService.loadScripts();
+    }
   }
 }
