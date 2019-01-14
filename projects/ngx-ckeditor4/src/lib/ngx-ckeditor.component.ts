@@ -19,12 +19,8 @@ import {NgxCkeditorOptions} from './ngx-ckeditor.options';
 
 @Component({
   selector: 'ngx-ckeditor',
-  template: `<textarea #editor [id]="this.id"></textarea>`,
-  styles: [
-      `textarea {
-      display: none;
-    }`
-  ],
+  templateUrl: './ngx-ckeditor.component.html',
+  styleUrls: ['./ngx-ckeditor.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -53,11 +49,26 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
               private _zone: NgZone) {
   }
 
-  ngOnInit() {
-    this.id = (Math.random() * 1000).toFixed(0);
-    if (this._options.config && isObject(this._options.config)) {
-      Object.assign(this.config, this._options.config);
+  writeValue(value: string) {
+    this._value = value || '';
+    if (this._editor) {
+      this._editor.setData(this._value);
+      const val = this._editor.getData();
+      this._editor.setData(val);
     }
+  }
+
+  registerOnChange(fn: (_: any) => {}) {
+    this._onchange = fn;
+  }
+
+  registerOnTouched(fn: () => {}) {
+    this._ontouched = fn;
+  }
+
+  ngOnInit() {
+    this._setRandomId();
+    this._initConfig();
   }
 
   ngAfterViewInit() {
@@ -65,12 +76,26 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._editor.removeAllListeners();
+    this._destroy();
   }
 
   reused() {
-    this.id = (Math.random() * 1000).toFixed(0);
+    this._destroy();
+    this._setRandomId();
+    this._initConfig();
     this._factory();
+  }
+
+  private _setRandomId() {
+    if (!this.id) {
+      this.id = 'ckeditor_' + (Math.random() * 10000).toFixed(0);
+    }
+  }
+
+  private _initConfig() {
+    if (this._options.config && isObject(this._options.config)) {
+      Object.assign(this.config, this._options.config);
+    }
   }
 
   private _factory() {
@@ -99,20 +124,9 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  writeValue(value: string) {
-    this._value = value || '';
+  private _destroy() {
     if (this._editor) {
-      this._editor.setData(this._value);
-      const val = this._editor.getData();
-      this._editor.setData(val);
+      this._editor.destroy();
     }
-  }
-
-  registerOnChange(fn: (_: any) => {}) {
-    this._onchange = fn;
-  }
-
-  registerOnTouched(fn: () => {}) {
-    this._ontouched = fn;
   }
 }

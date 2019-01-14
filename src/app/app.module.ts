@@ -7,14 +7,16 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {NgZorroAntdModule, NZ_I18N, zh_CN} from 'ng-zorro-antd';
 import {registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
-import {NgxCkeditorModule} from 'dev-ngx-ckeditor4';
 
 registerLocaleData(zh);
+
+import {NgxCkeditorModule} from 'dev-ngx-ckeditor4';
 
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
 import {ExampleComponent} from './example/example.component';
 import {MarkdownModule} from 'ngx-markdown';
+import {ReusedComponent} from './reused/reused.component';
 
 
 @NgModule({
@@ -22,6 +24,7 @@ import {MarkdownModule} from 'ngx-markdown';
     AppComponent,
     HomeComponent,
     ExampleComponent,
+    ReusedComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,8 @@ import {MarkdownModule} from 'ngx-markdown';
     }),
     RouterModule.forRoot([
       {path: '', component: HomeComponent},
-      {path: 'example', component: ExampleComponent}
+      {path: 'example', component: ExampleComponent},
+      {path: 'reused', component: ReusedComponent}
     ], {useHash: true})
   ],
   providers: [{provide: NZ_I18N, useValue: zh_CN}],
