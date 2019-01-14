@@ -14,7 +14,7 @@ Execute reused after modifying config
   templateUrl: './reused.component.html',
   styleUrls: ['./reused.component.scss']
 })
-export class ReusedComponent implements AfterViewInit {
+export class ReusedComponent {
   text = '';
   default = [
     {name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates']},
@@ -32,10 +32,6 @@ export class ReusedComponent implements AfterViewInit {
 
   @ViewChild('editor') editor: NgxCkeditorComponent;
 
-  ngAfterViewInit() {
-    console.log(this.editor);
-  }
-
   changeLanguage() {
     this.editor.reused();
   }
@@ -43,6 +39,5 @@ export class ReusedComponent implements AfterViewInit {
   changeToolBar() {
     this.editor.reused();
   }
-
 }
 ```

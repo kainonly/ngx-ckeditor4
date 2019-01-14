@@ -32,6 +32,7 @@ import {NgxCkeditorOptions} from './ngx-ckeditor.options';
 export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() id: string;
   @Input() config: any = {};
+  @Input() inline: boolean;
 
   @Output() ready: EventEmitter<any> = new EventEmitter();
   @Output() focus: EventEmitter<any> = new EventEmitter();
@@ -80,10 +81,12 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   reused() {
-    this._destroy();
-    this._setRandomId();
-    this._initConfig();
-    this._factory();
+    setTimeout(() => {
+      this._destroy();
+      this._setRandomId();
+      this._initConfig();
+      this._factory();
+    });
   }
 
   private _setRandomId() {
@@ -100,7 +103,13 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _factory() {
     this._ngxCkeditorService.loaded.subscribe(() => {
-      this._editor = this._ngxCkeditorService.CKEDITOR.replace(this.editorRef.nativeElement, this.config);
+      if (!this.inline) {
+        this._ngxCkeditorService.CKEDITOR.disableAutoInline = false;
+        this._editor = this._ngxCkeditorService.CKEDITOR.replace(this.editorRef.nativeElement, this.config);
+      } else {
+        this._ngxCkeditorService.CKEDITOR.disableAutoInline = true;
+        this._editor = this._ngxCkeditorService.CKEDITOR.inline(this.editorRef.nativeElement, this.config);
+      }
       this._editor.setData(this._value);
       this._editor.on('change', () => {
         this._value = this._editor.getData();
