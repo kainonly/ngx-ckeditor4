@@ -33,11 +33,15 @@ export class ReusedComponent {
   @ViewChild('editor') editor: NgxCkeditorComponent;
 
   changeLanguage() {
-    this.editor.reused();
+    this.editor.reused().subscribe(status => {
+        console.log(status);
+    });
   }
 
   changeToolBar() {
-    this.editor.reused();
+    this.editor.reused().subscribe(status => {
+        console.log(status);
+    });
   }
 }
 ```
