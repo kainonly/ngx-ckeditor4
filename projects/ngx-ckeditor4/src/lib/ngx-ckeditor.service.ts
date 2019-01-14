@@ -8,6 +8,7 @@ declare let CKEDITOR: any;
 @Injectable()
 export class NgxCkeditorService {
   CKEDITOR: any;
+  setup = false;
   loaded: AsyncSubject<boolean> = new AsyncSubject();
 
   constructor(@Inject(DOCUMENT) private document: any,
@@ -16,6 +17,7 @@ export class NgxCkeditorService {
 
   loadScripts() {
     if (!this.CKEDITOR) {
+      this.setup = true;
       const script = this.document.createElement('script');
       script.setAttribute('type', 'text/javascript');
       script.setAttribute('src', this.options.url);
