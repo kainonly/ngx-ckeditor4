@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {NgxCkeditorComponent} from 'dev-ngx-ckeditor4';
 
 @Component({
@@ -6,7 +6,7 @@ import {NgxCkeditorComponent} from 'dev-ngx-ckeditor4';
   templateUrl: './reused.component.html',
   styleUrls: ['./reused.component.scss']
 })
-export class ReusedComponent implements AfterViewInit {
+export class ReusedComponent {
   text = '';
   default = [
     {name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates']},
@@ -24,10 +24,6 @@ export class ReusedComponent implements AfterViewInit {
 
   @ViewChild('editor') editor: NgxCkeditorComponent;
 
-  ngAfterViewInit() {
-    console.log(this.editor);
-  }
-
   changeLanguage() {
     this.editor.reused();
   }
@@ -35,5 +31,4 @@ export class ReusedComponent implements AfterViewInit {
   changeToolBar() {
     this.editor.reused();
   }
-
 }

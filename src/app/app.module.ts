@@ -17,6 +17,7 @@ import {HomeComponent} from './home/home.component';
 import {ExampleComponent} from './example/example.component';
 import {MarkdownModule} from 'ngx-markdown';
 import {ReusedComponent} from './reused/reused.component';
+import {InlineComponent} from './inline/inline.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import {ReusedComponent} from './reused/reused.component';
     HomeComponent,
     ExampleComponent,
     ReusedComponent,
+    InlineComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,8 @@ import {ReusedComponent} from './reused/reused.component';
     RouterModule.forRoot([
       {path: '', component: HomeComponent},
       {path: 'example', component: ExampleComponent},
-      {path: 'reused', component: ReusedComponent}
+      {path: 'reused', component: ReusedComponent},
+      {path: 'inline', component: InlineComponent}
     ], {useHash: true})
   ],
   providers: [{provide: NZ_I18N, useValue: zh_CN}],
