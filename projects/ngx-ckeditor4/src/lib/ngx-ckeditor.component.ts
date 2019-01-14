@@ -103,32 +103,38 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _factory() {
     this._ngxCkeditorService.loaded.subscribe(() => {
-      if (!this.inline) {
-        this._ngxCkeditorService.CKEDITOR.disableAutoInline = false;
-        this._editor = this._ngxCkeditorService.CKEDITOR.replace(this.editorRef.nativeElement, this.config);
-      } else {
-        this._ngxCkeditorService.CKEDITOR.disableAutoInline = true;
-        this._editor = this._ngxCkeditorService.CKEDITOR.inline(this.editorRef.nativeElement, this.config);
-      }
-      this._editor.setData(this._value);
-      this._editor.on('change', () => {
-        this._value = this._editor.getData();
-        this._zone.run(() => {
-          this._onchange(this._value);
-          this._ontouched();
+      this._zone.runOutsideAngular(() => {
+        if (!this.inline) {
+          this._ngxCkeditorService.CKEDITOR.disableAutoInline = false;
+          this._editor = this._ngxCkeditorService.CKEDITOR.replace(this.editorRef.nativeElement, this.config);
+        } else {
+          this._ngxCkeditorService.CKEDITOR.disableAutoInline = true;
+          this._editor = this._ngxCkeditorService.CKEDITOR.inline(this.editorRef.nativeElement, this.config);
+        }
+        this._editor.setData(this._value);
+        this._editor.on('change', () => {
+          this._zone.run(() => {
+            this._value = this._editor.getData();
+            this._onchange(this._value);
+            this._ontouched();
+          });
         });
-      });
-      this._editor.on('instanceReady', (event) => {
-        this.ready.emit(event);
-      });
-      this._editor.on('blur', (event) => {
-        this.blur.emit(event);
-        this._zone.run(() => {
-          this._ontouched();
+        this._editor.on('instanceReady', (event) => {
+          this._zone.run(() => {
+            this.ready.emit(event);
+          });
         });
-      });
-      this._editor.on('focus', (event) => {
-        this.focus.emit(event);
+        this._editor.on('blur', (event) => {
+          this._zone.run(() => {
+            this.blur.emit(event);
+            this._ontouched();
+          });
+        });
+        this._editor.on('focus', (event) => {
+          this._zone.run(() => {
+            this.focus.emit(event);
+          });
+        });
       });
     });
   }
