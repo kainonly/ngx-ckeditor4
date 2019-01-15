@@ -18,6 +18,7 @@ import {ExampleComponent} from './example/example.component';
 import {MarkdownModule} from 'ngx-markdown';
 import {ReusedComponent} from './reused/reused.component';
 import {InlineComponent} from './inline/inline.component';
+import {UploadsComponent} from './uploads/uploads.component';
 import {ApiComponent} from './api/api.component';
 
 
@@ -29,6 +30,7 @@ import {ApiComponent} from './api/api.component';
     ReusedComponent,
     InlineComponent,
     ApiComponent,
+    UploadsComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,7 @@ import {ApiComponent} from './api/api.component';
       {path: 'example', component: ExampleComponent},
       {path: 'reused', component: ReusedComponent},
       {path: 'inline', component: InlineComponent},
+      {path: 'uploads', component: UploadsComponent},
       {path: 'api', component: ApiComponent}
     ], {useHash: true})
   ],

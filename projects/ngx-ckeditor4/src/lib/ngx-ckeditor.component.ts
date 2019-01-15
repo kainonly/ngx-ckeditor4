@@ -17,6 +17,7 @@ import {isObject} from 'util';
 import {NgxCkeditorService} from './ngx-ckeditor.service';
 import {NgxCkeditorOptions} from './ngx-ckeditor.options';
 import {Observable} from 'rxjs';
+import {EventInfo} from './interface/eventInfo';
 
 @Component({
   selector: 'ngx-ckeditor',
@@ -39,6 +40,8 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() focus: EventEmitter<any> = new EventEmitter();
   @Output() blur: EventEmitter<any> = new EventEmitter();
   @Output() destroy: EventEmitter<any> = new EventEmitter();
+  @Output() fileUploadRequest: EventEmitter<EventInfo> = new EventEmitter();
+  @Output() fileUploadResponse: EventEmitter<EventInfo> = new EventEmitter();
 
   @ViewChild('editor') editorRef: ElementRef;
 
@@ -118,34 +121,48 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
           this._editor = this._ngxCkeditorService.CKEDITOR.inline(this.editorRef.nativeElement, this.config);
         }
         this._editor.setData(this._value);
-        this._editor.on('change', () => {
-          this._zone.run(() => {
-            this._value = this._editor.getData();
-            this._onchange(this._value);
-            this._ontouched();
-          });
-        });
-        this._editor.on('instanceReady', (event) => {
-          this._zone.run(() => {
-            this.ready.emit(event);
-          });
-        });
-        this._editor.on('focus', (event) => {
-          this._zone.run(() => {
-            this.focus.emit(event);
-          });
-        });
-        this._editor.on('blur', (event) => {
-          this._zone.run(() => {
-            this.blur.emit(event);
-            this._ontouched();
-          });
-        });
-        this._editor.on('destroy', (event) => {
-          this._zone.run(() => {
-            this.destroy.emit(event);
-          });
-        });
+        this._bindEvents();
+      });
+    });
+  }
+
+  private _bindEvents() {
+    this._editor.on('change', () => {
+      this._zone.run(() => {
+        this._value = this._editor.getData();
+        this._onchange(this._value);
+        this._ontouched();
+      });
+    });
+    this._editor.on('instanceReady', (event) => {
+      this._zone.run(() => {
+        this.ready.emit(event);
+      });
+    });
+    this._editor.on('focus', (event) => {
+      this._zone.run(() => {
+        this.focus.emit(event);
+      });
+    });
+    this._editor.on('blur', (event) => {
+      this._zone.run(() => {
+        this.blur.emit(event);
+        this._ontouched();
+      });
+    });
+    this._editor.on('destroy', (event) => {
+      this._zone.run(() => {
+        this.destroy.emit(event);
+      });
+    });
+    this._editor.on('fileUploadRequest', (event) => {
+      this._zone.run(() => {
+        this.fileUploadRequest.emit(event);
+      });
+    });
+    this._editor.on('fileUploadResponse', (event) => {
+      this._zone.run(() => {
+        this.fileUploadResponse.emit(event);
       });
     });
   }
