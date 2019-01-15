@@ -16,6 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
     {path: '/example', label: 'Example Ckeditor'},
     {path: '/reused', label: 'Reused Ckeditor'},
     {path: '/inline', label: 'Inline Ckeditor'},
+    {path: '/uploads', label: 'Uploads Ckeditor'},
     {path: '/api', label: 'Api Docs'}
   ];
 

@@ -1,0 +1,6 @@
+<nz-card nzTitle="Uploads Ckeditor">
+  <ngx-ckeditor [(ngModel)]="text"
+                (fileUploadRequest)="fileUploadRequest($event)"
+                (fileUploadResponse)="fileUploadResponse($event)"
+                [config]="config"></ngx-ckeditor>
+</nz-card>
