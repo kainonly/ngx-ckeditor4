@@ -11,4 +11,3 @@ config.toolbar = [
 ```
 
 You can visit [ckeditor.com/cke4/builder](https://ckeditor.com/cke4/builder) to customize the download package and copy the required settings from config.js
-
