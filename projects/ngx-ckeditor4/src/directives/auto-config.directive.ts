@@ -12,9 +12,22 @@ export class AutoConfigDirective implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this._ckeditorService.onConfig().subscribe(config => {
-
+    this._ckeditorService._config.subscribe(params => {
+      if (!params.id) {
+        this.ckeditorReused(params.config);
+      } else {
+        if (params.id === this._ngxCkeditorComponent.id) {
+          this.ckeditorReused(params.config);
+        }
+      }
     });
   }
 
+  /**
+   *  Start Reused
+   */
+  private ckeditorReused(config: any) {
+    this._ngxCkeditorComponent.config = config;
+    this._ngxCkeditorComponent.reusedSubscribe();
+  }
 }
