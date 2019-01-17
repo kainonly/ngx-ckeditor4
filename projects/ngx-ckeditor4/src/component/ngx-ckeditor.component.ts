@@ -13,11 +13,11 @@ import {
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR} from '@angular/forms';
 import {isObject} from 'util';
-
-import {NgxCkeditorService} from './ngx-ckeditor.service';
-import {NgxCkeditorOptions} from './ngx-ckeditor.options';
 import {Observable} from 'rxjs';
-import {EventInfo} from './interface/eventInfo';
+import {CkeditorService} from '../services/ckeditor.service';
+import {CkeditorOptions} from '../services/ckeditor.options';
+import {EventInfo} from '../types/eventInfo';
+
 
 @Component({
   selector: 'ngx-ckeditor',
@@ -50,8 +50,8 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   private _onchange: (value: string) => void;
   private _ontouched: () => void;
 
-  constructor(private _ngxCkeditorService: NgxCkeditorService,
-              private _options: NgxCkeditorOptions,
+  constructor(private _ngxCkeditorService: CkeditorService,
+              private _options: CkeditorOptions,
               private _zone: NgZone) {
   }
 

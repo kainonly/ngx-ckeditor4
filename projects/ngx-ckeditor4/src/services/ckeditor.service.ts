@@ -1,18 +1,18 @@
 import {Inject, Injectable} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-import {NgxCkeditorOptions} from './ngx-ckeditor.options';
+import {CkeditorOptions} from './ckeditor.options';
 import {AsyncSubject, fromEvent} from 'rxjs';
 
 declare let CKEDITOR: any;
 
 @Injectable()
-export class NgxCkeditorService {
+export class CkeditorService {
   CKEDITOR: any;
   setup = false;
   loaded: AsyncSubject<boolean> = new AsyncSubject();
 
   constructor(@Inject(DOCUMENT) private document: any,
-              private options: NgxCkeditorOptions) {
+              private options: CkeditorOptions) {
   }
 
   loadScripts() {
