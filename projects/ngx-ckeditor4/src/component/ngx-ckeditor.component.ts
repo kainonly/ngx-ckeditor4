@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR} from '@angular/forms';
 import {isObject} from 'util';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {SetupService} from '../services/setup.service';
 import {OptionsService} from '../services/options.service';
 import {CkeditorService} from '../services/ckeditor.service';
@@ -36,6 +36,7 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() config: any = {};
   @Input() inline: boolean;
 
+  @Output() configChange: EventEmitter<any> = new EventEmitter();
   @Output() ready: EventEmitter<any> = new EventEmitter();
   @Output() focus: EventEmitter<any> = new EventEmitter();
   @Output() blur: EventEmitter<any> = new EventEmitter();
@@ -80,10 +81,6 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this._factory();
-    this._ckeditorService.reuse.subscribe(number => {
-      console.log(number);
-      this.reused(number);
-    });
   }
 
   ngOnDestroy() {

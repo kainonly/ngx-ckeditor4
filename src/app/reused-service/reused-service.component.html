@@ -26,9 +26,6 @@
 
   <nz-divider></nz-divider>
 
-  <ngx-ckeditor [(ngModel)]="text" [config]="config"></ngx-ckeditor>
+  <ngx-ckeditor [(ngModel)]="text" [(config)]="config" auto-config></ngx-ckeditor>
 
-  <nz-divider></nz-divider>
-
-  <markdown [src]="'/ngx-ckeditor4/assets/docs/reused.md'"></markdown>
 </nz-card>

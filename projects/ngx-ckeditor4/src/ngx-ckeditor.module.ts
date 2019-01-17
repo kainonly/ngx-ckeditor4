@@ -5,13 +5,20 @@ import {NgxCkeditorComponent} from './component/ngx-ckeditor.component';
 import {OptionsService} from './services/options.service';
 import {SetupService} from './services/setup.service';
 import {CkeditorService} from './services/ckeditor.service';
+import {AutoConfigDirective} from './directives';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [NgxCkeditorComponent],
-  exports: [NgxCkeditorComponent]
+  declarations: [
+    NgxCkeditorComponent,
+    AutoConfigDirective
+  ],
+  exports: [
+    NgxCkeditorComponent,
+    AutoConfigDirective
+  ]
 })
 export class NgxCkeditorModule {
   static forRoot(options: OptionsService): ModuleWithProviders {
