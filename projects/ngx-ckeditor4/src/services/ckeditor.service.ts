@@ -1,7 +1,15 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 @Injectable()
 export class CkeditorService {
-  reuse: Subject<number> = new Subject();
+  private config: Subject<any> = new Subject();
+
+  setConfig(config: any) {
+    this.config.next(config);
+  }
+
+  onConfig(): Observable<any> {
+    return this.config;
+  }
 }
