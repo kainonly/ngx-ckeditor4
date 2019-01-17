@@ -1,4 +1,4 @@
-<nz-card nzTitle="Reused Ckeditor">
+<nz-card nzTitle="Dynamic Config Ckeditor">
   <div nz-row>
     <div nz-col [nzSpan]="2">
       <h4>Language：</h4>
@@ -26,6 +26,6 @@
 
   <nz-divider></nz-divider>
 
-  <ngx-ckeditor [(ngModel)]="text" [(config)]="config" auto-config></ngx-ckeditor>
+  <ngx-ckeditor [(ngModel)]="text" [(config)]="config" dynamic-config></ngx-ckeditor>
 
 </nz-card>
