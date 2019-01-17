@@ -21,6 +21,9 @@ import {DynamicConfigDirective} from './directives';
   ]
 })
 export class NgxCkeditorModule {
+  /**
+   * Set Module
+   */
   static forRoot(options: OptionsService): ModuleWithProviders {
     return {
       ngModule: NgxCkeditorModule,
