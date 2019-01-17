@@ -1,15 +1,22 @@
 import {Injectable} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {DynamicConfigInterface} from '../types/interface/dynamic-config.interface';
+import {Subject} from 'rxjs';
 
 @Injectable()
 export class CkeditorService {
-  private config: Subject<any> = new Subject();
+  /**
+   * dynamic config
+   */
+  _config: Subject<DynamicConfigInterface> = new Subject();
 
-  setConfig(config: any) {
-    this.config.next(config);
-  }
 
-  onConfig(): Observable<any> {
-    return this.config;
+  /**
+   *  update config
+   */
+  updateConfig(config: any, id: string | number = null) {
+    this._config.next({
+      config: config,
+      id: id
+    });
   }
 }

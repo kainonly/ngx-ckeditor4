@@ -87,6 +87,9 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
     this._destroy();
   }
 
+  /**
+   *  Ckeditor reused
+   */
   reused(delay = 0): Observable<boolean> {
     return Observable.create(observer => {
       setTimeout(() => {
@@ -100,18 +103,39 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  /**
+   *  Ckeditor reused subscription
+   */
+  reusedSubscribe(delay = 0) {
+    this.reused(delay).subscribe(
+      () => {
+      },
+      () => {
+      }
+    );
+  }
+
+  /**
+   * Randomly set the id of the ckeditor
+   */
   private _setRandomId() {
     if (!this.id) {
       this.id = 'ckeditor_' + (Math.random() * 10000).toFixed(0);
     }
   }
 
+  /**
+   * Initial the configuration of ckeditor
+   */
   private _initConfig() {
     if (this._optionsService.config && isObject(this._optionsService.config)) {
       Object.assign(this.config, this._optionsService.config);
     }
   }
 
+  /**
+   * Load ckeditor
+   */
   private _factory() {
     this._setupService.loaded.subscribe(() => {
       this._zone.runOutsideAngular(() => {
@@ -128,6 +152,9 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  /**
+   * Binding ckeditor event
+   */
   private _bindEvents() {
     this._editor.on('change', () => {
       this._zone.run(() => {
@@ -169,6 +196,9 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  /**
+   * Destroy ckeditor
+   */
   private _destroy() {
     if (this._editor) {
       this._editor.destroy();

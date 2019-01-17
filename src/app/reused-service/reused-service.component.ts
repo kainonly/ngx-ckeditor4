@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {} from 'dev-ngx-ckeditor4';
+import {CkeditorService} from 'dev-ngx-ckeditor4';
 
 @Component({
   selector: 'app-reused-service',
@@ -21,6 +21,10 @@ export class ReusedServiceComponent {
     language: 'en',
     toolbar: this.default
   };
+
+  constructor(public ckeditorService: CkeditorService) {
+
+  }
 
 
   changeLanguage() {

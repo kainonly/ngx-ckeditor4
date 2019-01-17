@@ -5,7 +5,7 @@
     </div>
     <div nz-col [nzSpan]="22">
       <nz-radio-group [(ngModel)]="config.language"
-                      (ngModelChange)="changeLanguage()">
+                      (ngModelChange)="ckeditorService.updateConfig(config)">
         <label nz-radio-button nzValue="en">en</label>
         <label nz-radio-button nzValue="zh-CN">zh-CN</label>
       </nz-radio-group>
@@ -17,7 +17,7 @@
     </div>
     <div nz-col [nzSpan]="22">
       <nz-radio-group [(ngModel)]="config.toolbar"
-                      (ngModelChange)="changeToolBar()">
+                      (ngModelChange)="ckeditorService.updateConfig(config)">
         <label nz-radio-button [nzValue]="default">default</label>
         <label nz-radio-button [nzValue]="basic">basic</label>
       </nz-radio-group>
