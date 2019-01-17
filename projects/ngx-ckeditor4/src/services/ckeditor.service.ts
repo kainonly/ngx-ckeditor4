@@ -1,35 +1,7 @@
-import {Inject, Injectable} from '@angular/core';
-import {DOCUMENT} from '@angular/common';
-import {CkeditorOptions} from './ckeditor.options';
-import {AsyncSubject, fromEvent} from 'rxjs';
-
-declare let CKEDITOR: any;
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
 
 @Injectable()
 export class CkeditorService {
-  CKEDITOR: any;
-  setup = false;
-  loaded: AsyncSubject<boolean> = new AsyncSubject();
-
-  constructor(@Inject(DOCUMENT) private document: any,
-              private options: CkeditorOptions) {
-  }
-
-  loadScripts() {
-    if (!this.CKEDITOR) {
-      this.setup = true;
-      const script = this.document.createElement('script');
-      script.setAttribute('type', 'text/javascript');
-      script.setAttribute('src', this.options.url);
-      this.document.body.appendChild(script);
-      fromEvent(script, 'load').subscribe(() => {
-        this.CKEDITOR = CKEDITOR;
-        this.loaded.next(true);
-        this.loaded.complete();
-      });
-      fromEvent(script, 'error').subscribe(() => {
-        console.warn('CKEditor load failed');
-      });
-    }
-  }
+  reuse: Subject<number> = new Subject();
 }

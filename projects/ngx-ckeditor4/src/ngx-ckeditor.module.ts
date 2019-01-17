@@ -2,7 +2,8 @@ import {ModuleWithProviders, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {NgxCkeditorComponent} from './component/ngx-ckeditor.component';
-import {CkeditorOptions} from './services/ckeditor.options';
+import {OptionsService} from './services/options.service';
+import {SetupService} from './services/setup.service';
 import {CkeditorService} from './services/ckeditor.service';
 
 @NgModule({
@@ -13,19 +14,20 @@ import {CkeditorService} from './services/ckeditor.service';
   exports: [NgxCkeditorComponent]
 })
 export class NgxCkeditorModule {
-  static forRoot(options: CkeditorOptions): ModuleWithProviders {
+  static forRoot(options: OptionsService): ModuleWithProviders {
     return {
       ngModule: NgxCkeditorModule,
       providers: [
-        {provide: CkeditorOptions, useValue: options},
+        {provide: OptionsService, useValue: options},
+        SetupService,
         CkeditorService
       ],
     };
   }
 
-  constructor(_ngxCkeditorService: CkeditorService) {
-    if (!_ngxCkeditorService.setup) {
-      _ngxCkeditorService.loadScripts();
+  constructor(_setupService: SetupService) {
+    if (!_setupService.setup) {
+      _setupService.loadScripts();
     }
   }
 }

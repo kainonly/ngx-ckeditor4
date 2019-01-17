@@ -14,7 +14,7 @@ Execute reused after modifying config
   templateUrl: './reused.component.html',
   styleUrls: ['./reused.component.scss']
 })
-export class ReusedComponent {
+export class ReusedServiceComponent {
   text = '';
   default = [
     {name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates']},
