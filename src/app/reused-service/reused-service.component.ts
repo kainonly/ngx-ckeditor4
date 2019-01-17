@@ -1,18 +1,10 @@
-### Reused
+import {Component} from '@angular/core';
+import {CkeditorService} from 'dev-ngx-ckeditor4';
 
-Dynamically change ckeditor configuration using reused.
-
-```html
- <ngx-ckeditor #editor [(ngModel)]="text" [config]="config"></ngx-ckeditor>
-```
-
-Execute reused after modifying config
-
-```typescript
 @Component({
-  selector: 'app-reused',
-  templateUrl: './reused.component.html',
-  styleUrls: ['./reused.component.scss']
+  selector: 'app-reused-service',
+  templateUrl: './reused-service.component.html',
+  styleUrls: ['./reused-service.component.scss']
 })
 export class ReusedServiceComponent {
   text = '';
@@ -30,18 +22,15 @@ export class ReusedServiceComponent {
     toolbar: this.default
   };
 
-  @ViewChild('editor') editor: NgxCkeditorComponent;
+  constructor(private ckeditorService: CkeditorService) {
+
+  }
 
   changeLanguage() {
-    this.editor.reused().subscribe(status => {
-        console.log(status);
-    });
+    this.ckeditorService.reuse.next(0);
   }
 
   changeToolBar() {
-    this.editor.reused().subscribe(status => {
-        console.log(status);
-    });
+    this.ckeditorService.reuse.next(0);
   }
 }
-```

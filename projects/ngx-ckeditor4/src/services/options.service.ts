@@ -1,4 +1,4 @@
-export class CkeditorOptions {
+export class OptionsService {
   url: string;
   config?: any;
 }

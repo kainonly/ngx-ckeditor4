@@ -13,11 +13,11 @@ import {
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR} from '@angular/forms';
 import {isObject} from 'util';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
+import {SetupService} from '../services/setup.service';
+import {OptionsService} from '../services/options.service';
 import {CkeditorService} from '../services/ckeditor.service';
-import {CkeditorOptions} from '../services/ckeditor.options';
-import {EventInfo} from '../types/eventInfo';
-
+import {EventInfo} from '../types';
 
 @Component({
   selector: 'ngx-ckeditor',
@@ -50,8 +50,9 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   private _onchange: (value: string) => void;
   private _ontouched: () => void;
 
-  constructor(private _ngxCkeditorService: CkeditorService,
-              private _options: CkeditorOptions,
+  constructor(private _setupService: SetupService,
+              private _optionsService: OptionsService,
+              private _ckeditorService: CkeditorService,
               private _zone: NgZone) {
   }
 
@@ -79,6 +80,10 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this._factory();
+    this._ckeditorService.reuse.subscribe(number => {
+      console.log(number);
+      this.reused(number);
+    });
   }
 
   ngOnDestroy() {
@@ -105,20 +110,20 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _initConfig() {
-    if (this._options.config && isObject(this._options.config)) {
-      Object.assign(this.config, this._options.config);
+    if (this._optionsService.config && isObject(this._optionsService.config)) {
+      Object.assign(this.config, this._optionsService.config);
     }
   }
 
   private _factory() {
-    this._ngxCkeditorService.loaded.subscribe(() => {
+    this._setupService.loaded.subscribe(() => {
       this._zone.runOutsideAngular(() => {
         if (!this.inline) {
-          this._ngxCkeditorService.CKEDITOR.disableAutoInline = false;
-          this._editor = this._ngxCkeditorService.CKEDITOR.replace(this.editorRef.nativeElement, this.config);
+          this._setupService.CKEDITOR.disableAutoInline = false;
+          this._editor = this._setupService.CKEDITOR.replace(this.editorRef.nativeElement, this.config);
         } else {
-          this._ngxCkeditorService.CKEDITOR.disableAutoInline = true;
-          this._editor = this._ngxCkeditorService.CKEDITOR.inline(this.editorRef.nativeElement, this.config);
+          this._setupService.CKEDITOR.disableAutoInline = true;
+          this._editor = this._setupService.CKEDITOR.inline(this.editorRef.nativeElement, this.config);
         }
         this._editor.setData(this._value);
         this._bindEvents();

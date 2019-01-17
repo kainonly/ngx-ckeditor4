@@ -17,6 +17,7 @@ import {HomeComponent} from './home/home.component';
 import {ExampleComponent} from './example/example.component';
 import {MarkdownModule} from 'ngx-markdown';
 import {ReusedComponent} from './reused/reused.component';
+import {ReusedServiceComponent} from './reused-service/reused-service.component';
 import {InlineComponent} from './inline/inline.component';
 import {UploadsComponent} from './uploads/uploads.component';
 import {ApiComponent} from './api/api.component';
@@ -28,6 +29,7 @@ import {ApiComponent} from './api/api.component';
     HomeComponent,
     ExampleComponent,
     ReusedComponent,
+    ReusedServiceComponent,
     InlineComponent,
     ApiComponent,
     UploadsComponent,
@@ -46,6 +48,7 @@ import {ApiComponent} from './api/api.component';
       {path: '', component: HomeComponent},
       {path: 'example', component: ExampleComponent},
       {path: 'reused', component: ReusedComponent},
+      {path: 'reused-service', component: ReusedServiceComponent},
       {path: 'inline', component: InlineComponent},
       {path: 'uploads', component: UploadsComponent},
       {path: 'api', component: ApiComponent}
