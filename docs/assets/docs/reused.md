@@ -14,7 +14,7 @@ Execute reused after modifying config
   templateUrl: './reused.component.html',
   styleUrls: ['./reused.component.scss']
 })
-export class DynamicConfigComponent {
+export class ReusedComponent {
   text = '';
   default = [
     {name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates']},
@@ -34,13 +34,13 @@ export class DynamicConfigComponent {
 
   changeLanguage() {
     this.editor.reused().subscribe(status => {
-        console.log(status);
+      console.log(status);
     });
   }
 
   changeToolBar() {
     this.editor.reused().subscribe(status => {
-        console.log(status);
+      console.log(status);
     });
   }
 }
