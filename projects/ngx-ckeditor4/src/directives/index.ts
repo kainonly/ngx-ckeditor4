@@ -1,1 +1,1 @@
-export * from './auto-config.directive';
+export * from './dynamic-config.directive';

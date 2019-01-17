@@ -2,11 +2,11 @@ import {Component} from '@angular/core';
 import {CkeditorService} from 'dev-ngx-ckeditor4';
 
 @Component({
-  selector: 'app-reused-service',
-  templateUrl: './reused-service.component.html',
-  styleUrls: ['./reused-service.component.scss']
+  selector: 'app-dynamic-config',
+  templateUrl: './dynamic-config.component.html',
+  styleUrls: ['./dynamic-config.component.scss']
 })
-export class ReusedServiceComponent {
+export class DynamicConfigComponent {
   text = '';
   default = [
     {name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates']},
@@ -23,13 +23,5 @@ export class ReusedServiceComponent {
   };
 
   constructor(public ckeditorService: CkeditorService) {
-
-  }
-
-
-  changeLanguage() {
-  }
-
-  changeToolBar() {
   }
 }
