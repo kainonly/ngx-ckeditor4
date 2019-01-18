@@ -11,22 +11,47 @@ config = {
 After that you can listen to requests and responses for events to customize.
 
 ```typescript
-fileUploadRequest(event: EventInfo) {
-    console.log(event);
-}
+@Component({
+  selector: 'app-uploads',
+  templateUrl: './uploads.component.html',
+  styleUrls: ['./uploads.component.scss']
+})
+export class UploadsComponent {
+  text = '';
+  config = {
+    filebrowserUploadUrl: 'http://127.0.0.1:8000/index/index/uploads?field=upload'
+  };
 
-fileUploadResponse(event: EventInfo) {
+  /**
+   * Custom Upload Request
+   */
+  fileUploadRequest(event: EventInfo) {
+    const fileLoader = event.data.fileLoader;
+    const formData = new FormData();
+    const xhr = fileLoader.xhr;
+
+    xhr.withCredentials = true;
+    xhr.open('POST', fileLoader.uploadUrl, true);
+    formData.append('image', fileLoader.file, fileLoader.fileName);
+    fileLoader.xhr.send(formData);
+    event.stop();
+  }
+
+  /**
+   * Custom Upload Response
+   */
+  fileUploadResponse(event: EventInfo) {
     event.stop();
     const data = event.data,
-        xhr = data.fileLoader.xhr,
-        response = JSON.parse(xhr.responseText);
+      xhr = data.fileLoader.xhr,
+      response = JSON.parse(xhr.responseText);
     if (response['error']) {
-        data.message = 'upload fail';
-        event.cancel();
+      data.message = 'upload fail';
+      event.cancel();
     } else {
-        // save_name is the file address returned by the upload
-        data.url = 'http://127.0.0.1:8000/uploads/' + response['data']['save_name'];
+      data.url = 'http://127.0.0.1:8000/uploads/' + response['data']['save_name'];
     }
+  }
 }
 ```
 
