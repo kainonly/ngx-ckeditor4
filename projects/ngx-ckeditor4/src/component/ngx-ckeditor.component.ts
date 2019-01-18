@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterContentInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -31,12 +31,12 @@ import {EventInfo} from '../types';
     },
   ],
 })
-export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
+export class NgxCkeditorComponent implements OnInit, AfterContentInit, OnDestroy {
   @Input() id: string;
   @Input() config: any = {};
   @Input() inline: boolean;
 
-  @Output() configChange: EventEmitter<any> = new EventEmitter();
+  @Output() inlineChange: EventEmitter<any> = new EventEmitter();
   @Output() ready: EventEmitter<any> = new EventEmitter();
   @Output() focus: EventEmitter<any> = new EventEmitter();
   @Output() blur: EventEmitter<any> = new EventEmitter();
@@ -79,7 +79,7 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
     this._initConfig();
   }
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
     this._factory();
   }
 

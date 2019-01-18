@@ -20,8 +20,8 @@ import {ReusedComponent} from './reused/reused.component';
 import {DynamicConfigComponent} from './dynamic-config/dynamic-config.component';
 import {InlineComponent} from './inline/inline.component';
 import {UploadsComponent} from './uploads/uploads.component';
+import {DynamicInlineComponent} from './dynamic-inline/dynamic-inline.component';
 import {ApiComponent} from './api/api.component';
-
 
 @NgModule({
   declarations: [
@@ -31,6 +31,7 @@ import {ApiComponent} from './api/api.component';
     ReusedComponent,
     DynamicConfigComponent,
     InlineComponent,
+    DynamicInlineComponent,
     ApiComponent,
     UploadsComponent,
   ],
@@ -50,6 +51,7 @@ import {ApiComponent} from './api/api.component';
       {path: 'reused', component: ReusedComponent},
       {path: 'dynamic-config', component: DynamicConfigComponent},
       {path: 'inline', component: InlineComponent},
+      {path: 'dynamic-inline', component: DynamicInlineComponent},
       {path: 'uploads', component: UploadsComponent},
       {path: 'api', component: ApiComponent}
     ], {useHash: true})

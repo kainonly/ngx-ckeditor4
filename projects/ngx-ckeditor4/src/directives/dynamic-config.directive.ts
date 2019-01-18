@@ -1,4 +1,4 @@
-import {AfterViewInit, Directive, OnDestroy} from '@angular/core';
+import {AfterContentInit, Directive, OnDestroy} from '@angular/core';
 import {NgxCkeditorComponent} from '../component/ngx-ckeditor.component';
 import {CkeditorService} from '../services/ckeditor.service';
 import {Subscription} from 'rxjs';
@@ -6,14 +6,14 @@ import {Subscription} from 'rxjs';
 @Directive({
   selector: '[dynamic-config]'
 })
-export class DynamicConfigDirective implements AfterViewInit, OnDestroy {
+export class DynamicConfigDirective implements AfterContentInit, OnDestroy {
   private _configSubscription: Subscription;
 
   constructor(private _ngxCkeditorComponent: NgxCkeditorComponent,
               private _ckeditorService: CkeditorService) {
   }
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
     this._configSubscription = this._ckeditorService._config.subscribe(params => {
       if (!params.id) {
         this.ckeditorReused(params.config);
