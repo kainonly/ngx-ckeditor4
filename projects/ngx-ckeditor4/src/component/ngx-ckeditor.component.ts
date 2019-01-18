@@ -36,7 +36,6 @@ export class NgxCkeditorComponent implements OnInit, AfterContentInit, OnDestroy
   @Input() config: any = {};
   @Input() inline: boolean;
 
-  @Output() inlineChange: EventEmitter<any> = new EventEmitter();
   @Output() ready: EventEmitter<any> = new EventEmitter();
   @Output() focus: EventEmitter<any> = new EventEmitter();
   @Output() blur: EventEmitter<any> = new EventEmitter();
