@@ -1,24 +1,20 @@
-### Inline Mode
+### Dynamic Inline Mode
 
-Set inline mode for ckeditor.
+This can better meet the dynamic inline mode of ckeditor.
 
 ```html
-<ngx-ckeditor #editor
-              [(ngModel)]="text"
-              [inline]="inline"
-              [config]="config">
-</ngx-ckeditor>
+<ngx-ckeditor dynamic-inline [(ngModel)]="text" [config]="config"></ngx-ckeditor>
 ```
 
-Execute reused after modifying inline
+Instantiation service
 
 ```typescript
 @Component({
-  selector: 'app-inline',
-  templateUrl: './inline.component.html',
-  styleUrls: ['./inline.component.scss']
+  selector: 'app-dynamic-inline',
+  templateUrl: './dynamic-inline.component.html',
+  styleUrls: ['./dynamic-inline.component.scss']
 })
-export class InlineComponent {
+export class DynamicInlineComponent {
   text = `...`;
 
   inline = false;
@@ -26,13 +22,16 @@ export class InlineComponent {
     height: 400
   };
 
-  @ViewChild('editor') editor: NgxCkeditorComponent;
-
-  changeInline() {
-    this.editor.reused().subscribe(status => {
-      console.log(status);
-    });
+  constructor(public ckeditorService: CkeditorService) {
   }
 }
+```
 
+set inline mode
+
+```html
+<nz-radio-group [(ngModel)]="inline" (ngModelChange)="ckeditorService.setInline($event)">
+  <label nz-radio-button [nzValue]="false">Default Mode</label>
+  <label nz-radio-button [nzValue]="true">Inline Mode</label>
+</nz-radio-group>
 ```
