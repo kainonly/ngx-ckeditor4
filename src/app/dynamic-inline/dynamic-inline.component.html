@@ -1,7 +1,7 @@
 <nz-card nzTitle="Inline Ckeditor">
   <div nz-row>
     <div nz-col [nzSpan]="22">
-      <nz-radio-group [(ngModel)]="inline">
+      <nz-radio-group [(ngModel)]="inline" (ngModelChange)="ckeditorService.setInline($event)">
         <label nz-radio-button [nzValue]="false">Default Mode</label>
         <label nz-radio-button [nzValue]="true">Inline Mode</label>
       </nz-radio-group>
@@ -11,9 +11,9 @@
 
   <nz-divider></nz-divider>
 
-  <ngx-ckeditor dynamic-inline
-                [(ngModel)]="text"
-                [(inline)]="inline"
-                [config]="config"></ngx-ckeditor>
+  <ngx-ckeditor dynamic-inline [(ngModel)]="text" [config]="config"></ngx-ckeditor>
 
+  <nz-divider></nz-divider>
+
+  <markdown [src]="'/ngx-ckeditor4/assets/docs/dynamic-inline.md'"></markdown>
 </nz-card>

@@ -20,8 +20,6 @@ export class InlineComponent {
   @ViewChild('editor') editor: NgxCkeditorComponent;
 
   changeInline() {
-    this.editor.reused().subscribe(status => {
-      console.log(status);
-    });
+    this.editor.reusedSubscribe();
   }
 }
