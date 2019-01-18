@@ -12,10 +12,24 @@ export class UploadsComponent {
     filebrowserUploadUrl: 'http://127.0.0.1:8000/index/index/uploads?field=upload'
   };
 
+  /**
+   * Custom Upload Request
+   */
   fileUploadRequest(event: EventInfo) {
-    console.log(event);
+    const fileLoader = event.data.fileLoader;
+    const formData = new FormData();
+    const xhr = fileLoader.xhr;
+
+    xhr.withCredentials = true;
+    xhr.open('POST', fileLoader.uploadUrl, true);
+    formData.append('image', fileLoader.file, fileLoader.fileName);
+    fileLoader.xhr.send(formData);
+    event.stop();
   }
 
+  /**
+   * Custom Upload Response
+   */
   fileUploadResponse(event: EventInfo) {
     event.stop();
     const data = event.data,
