@@ -7,14 +7,28 @@ declare let CKEDITOR: any;
 
 @Injectable()
 export class SetupService {
-  CKEDITOR: any;
+  /**
+   * Used to determine whether to install
+   */
   setup = false;
+
+  /**
+   * Judge loading status
+   */
   loaded: AsyncSubject<boolean> = new AsyncSubject();
+
+  /**
+   * Ckeditor source object
+   */
+  CKEDITOR: any;
 
   constructor(@Inject(DOCUMENT) private document: any,
               private options: OptionsService) {
   }
 
+  /**
+   * Lazy loading ckeditor library
+   */
   loadScripts() {
     if (!this.CKEDITOR) {
       this.setup = true;
