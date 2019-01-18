@@ -17,6 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
     {path: '/reused', label: 'Reused Ckeditor'},
     {path: '/dynamic-config', label: 'Dynamic Config Ckeditor'},
     {path: '/inline', label: 'Inline Ckeditor'},
+    {path: '/dynamic-inline', label: 'Dynamic Inline Ckeditor'},
     {path: '/uploads', label: 'Uploads Ckeditor'},
     {path: '/api', label: 'Api Docs'}
   ];

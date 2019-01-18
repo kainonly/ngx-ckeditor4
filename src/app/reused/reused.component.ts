@@ -25,14 +25,10 @@ export class ReusedComponent {
   @ViewChild('editor') editor: NgxCkeditorComponent;
 
   changeLanguage() {
-    this.editor.reused().subscribe(status => {
-      console.log(status);
-    });
+    this.editor.reusedSubscribe();
   }
 
   changeToolBar() {
-    this.editor.reused().subscribe(status => {
-      console.log(status);
-    });
+    this.editor.reusedSubscribe();
   }
 }

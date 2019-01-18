@@ -5,7 +5,7 @@ import {NgxCkeditorComponent} from './component/ngx-ckeditor.component';
 import {OptionsService} from './services/options.service';
 import {SetupService} from './services/setup.service';
 import {CkeditorService} from './services/ckeditor.service';
-import {DynamicConfigDirective} from './directives';
+import {DynamicConfigDirective, DynamicInlineDirective} from './directives';
 
 @NgModule({
   imports: [
@@ -13,11 +13,13 @@ import {DynamicConfigDirective} from './directives';
   ],
   declarations: [
     NgxCkeditorComponent,
-    DynamicConfigDirective
+    DynamicConfigDirective,
+    DynamicInlineDirective
   ],
   exports: [
     NgxCkeditorComponent,
-    DynamicConfigDirective
+    DynamicConfigDirective,
+    DynamicInlineDirective
   ]
 })
 export class NgxCkeditorModule {
