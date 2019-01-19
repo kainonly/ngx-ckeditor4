@@ -809,4 +809,54 @@ export interface CkeditorConfigInterface {
    */
   magicline_color?: string;
 
+  /**
+   * Activates the special all-encompassing mode that considers all focus spaces between CKEDITOR.dtd.$block elements as accessible by the magic line.
+   */
+  magicline_everywhere?: boolean;
+
+  /**
+   * Defines the distance between the mouse pointer and the box within which the magic line stays revealed and no other focus space is offered to be accessed.
+   */
+  magicline_holdDistance?: number;
+
+  /**
+   * Defines the default keystroke that accesses the closest unreachable focus space after the caret (start of the selection).
+   */
+  magicline_keystrokeNext?: number;
+
+  /**
+   * Defines the default keystroke that accesses the closest unreachable focus space before the caret (start of the selection).
+   */
+  magicline_keystrokePrevious?: number;
+
+  /**
+   * Defines a list of attributes that, if assigned to some elements, prevent the magic line from being used within these elements.
+   */
+  magicline_tabuList?: number;
+
+  /**
+   * Sets the default vertical distance between the edge of the element and the mouse pointer that causes the magic line to appear.
+   */
+  magicline_triggerOffset?: number;
+
+  /**
+   * Sets the default class for span elements that will be converted into Mathematical Formulas widgets.
+   */
+  mathJaxClass?: string;
+
+  /**
+   * Sets the path to the MathJax library.
+   */
+  mathJaxLib?: string;
+
+  /**
+   * A list of mentions configuration objects.
+   */
+  mentions?: any[];
+
+  /**
+   * A comma separated list of items group names to be displayed in the context menu.
+   */
+  menu_groups?: string;
+
 }
