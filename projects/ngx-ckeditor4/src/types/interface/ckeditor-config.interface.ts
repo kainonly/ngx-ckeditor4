@@ -758,4 +758,55 @@ export interface CkeditorConfigInterface {
    * the val() function used on textarea elements replaced with CKEditor uses the CKEditor API.
    */
   jqueryOverrideVal?: boolean;
+
+  /**
+   * List of classes to use for aligning the contents.
+   */
+  justifyClasses?: string[];
+
+  /**
+   * A list associating keystrokes with editor commands.
+   */
+  keystrokes?: any[];
+
+  /**
+   * The user interface language localization to use.
+   */
+  language?: string;
+
+  /**
+   * Specifies the list of languages available in the Language plugin.
+   */
+  language_list?: string[];
+
+  /**
+   * Whether JavaScript code is allowed as a href attribute in an anchor tag.
+   */
+  linkJavaScriptLinksAllowed?: boolean;
+
+  /**
+   * Optional message for the alert popup used when the phone number in the Link dialog does not pass the validation.
+   */
+  linkPhoneMsg?: string;
+
+  /**
+   * Optional JavaScript regular expression used whenever phone numbers in the Link dialog should be validated.
+   */
+  linkPhoneRegExp?: RegExp;
+
+  /**
+   * Whether to show the Advanced tab in the Link dialog window.
+   */
+  linkShowAdvancedTab?: boolean;
+
+  /**
+   * Whether to show the Target tab in the Link dialog window.
+   */
+  linkShowTargetTab?: boolean;
+
+  /**
+   * Defines the color of the magic line.
+   */
+  magicline_color?: string;
+
 }
