@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR} from '@angular/forms';
 import {isObject} from 'util';
-import {Observable} from 'rxjs';
+import {AsyncSubject, Observable} from 'rxjs';
 import {SetupService} from '../services/setup.service';
 import {OptionsService} from '../services/options.service';
 import {CkeditorService} from '../services/ckeditor.service';
@@ -46,6 +46,7 @@ export class NgxCkeditorComponent implements OnInit, AfterContentInit, OnDestroy
   @ViewChild('editor') editorRef: ElementRef;
 
   private _editor: any;
+  private _instanceReady: AsyncSubject<boolean> = new AsyncSubject();
   private _value: string;
   private _onchange: (value: string) => void;
   private _ontouched: () => void;
@@ -58,11 +59,11 @@ export class NgxCkeditorComponent implements OnInit, AfterContentInit, OnDestroy
 
   writeValue(value: string) {
     this._value = value || '';
-    if (this._editor) {
-      this._zone.run(() => {
+    this._instanceReady.subscribe(status => {
+      if (status) {
         this._editor.setData(this._value);
-      });
-    }
+      }
+    });
   }
 
   registerOnChange(fn: (_: any) => {}) {
@@ -165,6 +166,8 @@ export class NgxCkeditorComponent implements OnInit, AfterContentInit, OnDestroy
     this._editor.on('instanceReady', (event) => {
       this._zone.run(() => {
         this.ready.emit(event);
+        this._instanceReady.next(true);
+        this._instanceReady.complete();
       });
     });
     this._editor.on('focus', (event) => {
