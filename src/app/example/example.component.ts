@@ -6,7 +6,7 @@ import {Component} from '@angular/core';
   styleUrls: ['./example.component.scss']
 })
 export class ExampleComponent {
-  text = '';
+  text = '<p>example</p>';
 
   basic_config = {
     toolbar: [
