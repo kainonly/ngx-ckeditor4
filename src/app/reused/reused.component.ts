@@ -7,7 +7,7 @@ import {NgxCkeditorComponent} from 'dev-ngx-ckeditor4';
   styleUrls: ['./reused.component.scss']
 })
 export class ReusedComponent {
-  text = '';
+  text = '<p>Reused Ckeditor</p>';
   default = [
     {name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates']},
   ];
