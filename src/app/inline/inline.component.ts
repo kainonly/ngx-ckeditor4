@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {NgxCkeditorComponent} from 'dev-ngx-ckeditor4';
+import {NgxCkeditorComponent} from 'ngx-ckeditor4';
 
 @Component({
   selector: 'app-inline',

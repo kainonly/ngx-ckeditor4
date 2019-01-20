@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CkeditorService} from 'dev-ngx-ckeditor4';
+import {CkeditorService} from 'ngx-ckeditor4';
 
 @Component({
   selector: 'app-dynamic-config',

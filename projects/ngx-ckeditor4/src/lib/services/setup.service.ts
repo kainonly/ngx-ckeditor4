@@ -1,9 +1,9 @@
-import {Inject, Injectable} from '@angular/core';
-import {DOCUMENT} from '@angular/common';
+import {Injectable} from '@angular/core';
 import {OptionsService} from './options.service';
 import {AsyncSubject, fromEvent} from 'rxjs';
 
 declare let CKEDITOR: any;
+declare let document: Document;
 
 @Injectable()
 export class SetupService {
@@ -22,8 +22,7 @@ export class SetupService {
    */
   CKEDITOR: any;
 
-  constructor(@Inject(DOCUMENT) private document: any,
-              private options: OptionsService) {
+  constructor(private options: OptionsService) {
   }
 
   /**
@@ -32,10 +31,10 @@ export class SetupService {
   loadScripts() {
     if (!this.CKEDITOR) {
       this.setup = true;
-      const script = this.document.createElement('script');
+      const script = document.createElement('script');
       script.setAttribute('type', 'text/javascript');
       script.setAttribute('src', this.options.url);
-      this.document.body.appendChild(script);
+      document.body.appendChild(script);
       fromEvent(script, 'load').subscribe(() => {
         this.CKEDITOR = CKEDITOR;
         this.loaded.next(true);
