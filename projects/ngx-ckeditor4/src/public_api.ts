@@ -2,7 +2,7 @@
  * Public API Surface of ngx-ckeditor4
  */
 
-export * from './component/ngx-ckeditor.component';
-export * from './services/ckeditor.service';
-export * from './types';
-export * from './ngx-ckeditor.module';
+export * from './lib/component/ngx-ckeditor.component';
+export * from './lib/services/ckeditor.service';
+export * from './lib/types';
+export * from './lib/ngx-ckeditor.module';
