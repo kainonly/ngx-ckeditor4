@@ -10,7 +10,7 @@ import zh from '@angular/common/locales/zh';
 
 registerLocaleData(zh);
 
-import {NgxCkeditorModule} from 'dev-ngx-ckeditor4';
+import {NgxCkeditorModule, OptionsService, SetupService} from 'dev-ngx-ckeditor4';
 
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
@@ -42,9 +42,7 @@ import {ApiComponent} from './api/api.component';
     HttpClientModule,
     NgZorroAntdModule,
     MarkdownModule.forRoot({loader: HttpClient}),
-    NgxCkeditorModule.forRoot({
-      url: 'https://cdn.bootcss.com/ckeditor/4.11.1/ckeditor.js'
-    }),
+    NgxCkeditorModule,
     RouterModule.forRoot([
       {path: '', component: HomeComponent},
       {path: 'example', component: ExampleComponent},
@@ -56,8 +54,21 @@ import {ApiComponent} from './api/api.component';
       {path: 'api', component: ApiComponent}
     ], {useHash: true})
   ],
-  providers: [{provide: NZ_I18N, useValue: zh_CN}],
+  providers: [
+    {
+      provide: OptionsService, useValue: {
+        url: 'https://cdn.bootcss.com/ckeditor/4.11.1/ckeditor.js'
+      }
+    },
+    SetupService,
+    {provide: NZ_I18N, useValue: zh_CN}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(_setupService: SetupService) {
+    if (!_setupService.setup) {
+      _setupService.loadScripts();
+    }
+  }
 }
