@@ -61,7 +61,9 @@ export class NgxCkeditorComponent implements OnInit, AfterContentInit, OnDestroy
     this._value = value || '';
     this._instanceReady.subscribe(status => {
       if (status) {
-        this._editor.setData(this._value);
+        setTimeout(() => {
+          this._editor.setData(this._value);
+        }, 200);
       }
     });
   }
