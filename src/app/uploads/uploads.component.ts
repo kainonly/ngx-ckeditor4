@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {EventInfo} from 'dev-ngx-ckeditor4';
+import {EventInfo} from 'ngx-ckeditor4';
 
 @Component({
   selector: 'app-uploads',

@@ -17,7 +17,7 @@ import {AsyncSubject, Observable} from 'rxjs';
 import {SetupService} from '../services/setup.service';
 import {OptionsService} from '../services/options.service';
 import {CkeditorService} from '../services/ckeditor.service';
-import {EventInfo} from '../types';
+import {EventInfo} from '../types/eventInfo';
 
 @Component({
   selector: 'ngx-ckeditor',
