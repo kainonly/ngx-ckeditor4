@@ -139,7 +139,9 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.editor.on('blur', (event) => {
         this.blur.emit(event);
-        this.onTouched();
+        if (this.onTouched) {
+          this.onTouched();
+        }
       });
 
       this.editor.on('fileUploadRequest', (event) => {
