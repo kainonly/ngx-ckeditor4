@@ -7,12 +7,14 @@ import {Component, OnInit} from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   text: string;
+  inline = false;
 
   ngOnInit() {
   }
 
   change(event) {
-    console.log(event);
+    // console.log(event);
   }
+
 
 }
