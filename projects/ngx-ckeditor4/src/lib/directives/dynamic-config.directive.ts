@@ -4,17 +4,17 @@ import {CkeditorService} from '../services/ckeditor.service';
 import {Subscription} from 'rxjs';
 
 @Directive({
-  selector: '[dynamic-config]'
+  selector: '[ckDynamicConfig]'
 })
 export class DynamicConfigDirective implements AfterContentInit, OnDestroy {
-  private _configSubscription: Subscription;
+  private configSubscription: Subscription;
 
   constructor(private ngxCkeditorComponent: NgxCkeditorComponent,
               private ckeditorService: CkeditorService) {
   }
 
   ngAfterContentInit() {
-    this._configSubscription = this.ckeditorService.config.subscribe(params => {
+    this.configSubscription = this.ckeditorService.config.subscribe(params => {
       if (!params.id) {
         this.ckeditorReused(params.config);
       } else {
@@ -26,7 +26,7 @@ export class DynamicConfigDirective implements AfterContentInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._configSubscription.unsubscribe();
+    this.configSubscription.unsubscribe();
   }
 
   /**
