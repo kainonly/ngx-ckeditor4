@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {NgxCkeditorModule} from 'ngx-ckeditor4';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgZorroAntdModule, NZ_I18N, en_US} from 'ng-zorro-antd';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -20,6 +20,7 @@ import {AppComponent} from './app.component';
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     NgZorroAntdModule,
     HttpClientModule,
     BrowserAnimationsModule,

@@ -1,5 +1,12 @@
 <div class="box">
   <nz-card [nzBordered]="false" nzTitle="所见即所得">
-    <ngx-ckeditor [(ngModel)]="text" (ngModelChange)="change($event)"></ngx-ckeditor>
+    <form nz-form [formGroup]="form" (ngSubmit)="submit()">
+      <ngx-ckeditor formControlName="text"></ngx-ckeditor>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary">Submit</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
   </nz-card>
 </div>
