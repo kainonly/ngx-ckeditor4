@@ -1,4 +1,4 @@
-import {AfterContentInit, Directive, OnDestroy} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Directive, OnDestroy} from '@angular/core';
 import {NgxCkeditorComponent} from '../component/ngx-ckeditor.component';
 import {CkeditorService} from '../services/ckeditor.service';
 import {Subscription} from 'rxjs';
@@ -6,14 +6,14 @@ import {Subscription} from 'rxjs';
 @Directive({
   selector: '[ckDynamicInline]'
 })
-export class DynamicInlineDirective implements AfterContentInit, OnDestroy {
+export class DynamicInlineDirective implements AfterViewInit, OnDestroy {
   private inlineSubscription: Subscription;
 
   constructor(private ngxCkeditorComponent: NgxCkeditorComponent,
               private ckeditorService: CkeditorService) {
   }
 
-  ngAfterContentInit() {
+  ngAfterViewInit() {
     this.inlineSubscription = this.ckeditorService.inline.subscribe(params => {
       if (!params.id) {
         this.ckeditorReused(params.status);

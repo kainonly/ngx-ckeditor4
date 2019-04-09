@@ -23,7 +23,6 @@ import {EventInfo} from '../types/eventInfo';
 @Component({
   selector: 'ngx-ckeditor',
   templateUrl: './ngx-ckeditor.component.html',
-  styleUrls: ['./ngx-ckeditor.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
