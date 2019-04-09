@@ -98,6 +98,17 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
+   * Update Ckeditor
+   */
+  update() {
+    this.editorDestroy();
+    this.editorReady = new AsyncSubject();
+    this.editorChangeEvents = new Subject();
+    this.editorInitial();
+    this.editorFactory();
+  }
+
+  /**
    * Initial the configuration of ckeditor
    */
   private editorInitial() {
