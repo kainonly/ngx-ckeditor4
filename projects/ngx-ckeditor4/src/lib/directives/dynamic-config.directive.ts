@@ -9,16 +9,16 @@ import {Subscription} from 'rxjs';
 export class DynamicConfigDirective implements AfterContentInit, OnDestroy {
   private _configSubscription: Subscription;
 
-  constructor(private _ngxCkeditorComponent: NgxCkeditorComponent,
-              private _ckeditorService: CkeditorService) {
+  constructor(private ngxCkeditorComponent: NgxCkeditorComponent,
+              private ckeditorService: CkeditorService) {
   }
 
   ngAfterContentInit() {
-    this._configSubscription = this._ckeditorService._config.subscribe(params => {
+    this._configSubscription = this.ckeditorService.config.subscribe(params => {
       if (!params.id) {
         this.ckeditorReused(params.config);
       } else {
-        if (params.id === this._ngxCkeditorComponent.id) {
+        if (params.id === this.ngxCkeditorComponent.id) {
           this.ckeditorReused(params.config);
         }
       }
@@ -33,7 +33,7 @@ export class DynamicConfigDirective implements AfterContentInit, OnDestroy {
    *  Start Reused
    */
   private ckeditorReused(config: any) {
-    this._ngxCkeditorComponent.config = config;
-    this._ngxCkeditorComponent.reusedSubscribe();
+    this.ngxCkeditorComponent.config = config;
+    this.ngxCkeditorComponent.reusedSubscribe();
   }
 }

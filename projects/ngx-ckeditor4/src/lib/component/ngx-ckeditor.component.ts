@@ -1,5 +1,5 @@
 import {
-  AfterContentInit,
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -31,7 +31,9 @@ import {EventInfo} from '../types/eventInfo';
     },
   ],
 })
-export class NgxCkeditorComponent implements OnInit, AfterContentInit, OnDestroy {
+export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('editor') editorRef: ElementRef;
+
   @Input() id: string;
   @Input() config: any = {};
   @Input() inline: boolean;
@@ -39,54 +41,51 @@ export class NgxCkeditorComponent implements OnInit, AfterContentInit, OnDestroy
   @Output() ready: EventEmitter<any> = new EventEmitter();
   @Output() focus: EventEmitter<any> = new EventEmitter();
   @Output() blur: EventEmitter<any> = new EventEmitter();
-  @Output() destroy: EventEmitter<any> = new EventEmitter();
   @Output() fileUploadRequest: EventEmitter<EventInfo> = new EventEmitter();
   @Output() fileUploadResponse: EventEmitter<EventInfo> = new EventEmitter();
 
-  @ViewChild('editor') editorRef: ElementRef;
+  private editor: any;
+  private instanceReady: AsyncSubject<boolean> = new AsyncSubject();
+  private editorChange: (value: string) => void;
+  private editorTouched: () => void;
 
-  private _editor: any;
-  private _instanceReady: AsyncSubject<boolean> = new AsyncSubject();
-  private _value: string;
-  private _onchange: (value: string) => void;
-  private _ontouched: () => void;
+  constructor(private setupService: SetupService,
+              private optionsService: OptionsService,
+              private ckeditorService: CkeditorService,
+              private zone: NgZone) {
+  }
 
-  constructor(private _setupService: SetupService,
-              private _optionsService: OptionsService,
-              private _ckeditorService: CkeditorService,
-              private _zone: NgZone) {
+  ngOnInit() {
+    this.randomId();
+    this.initConfig();
+  }
+
+  ngAfterViewInit() {
+    this.factory();
+  }
+
+  ngOnDestroy() {
+    this.destroy();
   }
 
   writeValue(value: string) {
-    this._value = value || '';
-    this._instanceReady.subscribe(status => {
+    if (!value) {
+      return;
+    }
+    this.instanceReady.subscribe(status => {
       if (status) {
-        setTimeout(() => {
-          this._editor.setData(this._value);
-        }, 200);
+        console.log(value);
+        this.editor.setData(value);
       }
     });
   }
 
   registerOnChange(fn: (_: any) => {}) {
-    this._onchange = fn;
+    this.editorChange = fn;
   }
 
   registerOnTouched(fn: () => {}) {
-    this._ontouched = fn;
-  }
-
-  ngOnInit() {
-    this._setRandomId();
-    this._initConfig();
-  }
-
-  ngAfterContentInit() {
-    this._factory();
-  }
-
-  ngOnDestroy() {
-    this._destroy();
+    this.editorTouched = fn;
   }
 
   /**
@@ -95,10 +94,10 @@ export class NgxCkeditorComponent implements OnInit, AfterContentInit, OnDestroy
   reused(delay = 0): Observable<boolean> {
     return Observable.create(observer => {
       setTimeout(() => {
-        this._destroy();
-        this._setRandomId();
-        this._initConfig();
-        this._factory();
+        this.destroy();
+        this.randomId();
+        this.initConfig();
+        this.factory();
         observer.next(true);
         observer.complete();
       }, delay);
@@ -120,7 +119,7 @@ export class NgxCkeditorComponent implements OnInit, AfterContentInit, OnDestroy
   /**
    * Randomly set the id of the ckeditor
    */
-  private _setRandomId() {
+  private randomId() {
     if (!this.id) {
       this.id = 'ckeditor_' + (Math.random() * 10000).toFixed(0);
     }
@@ -129,84 +128,63 @@ export class NgxCkeditorComponent implements OnInit, AfterContentInit, OnDestroy
   /**
    * Initial the configuration of ckeditor
    */
-  private _initConfig() {
-    if (this._optionsService.config && isObject(this._optionsService.config)) {
-      Object.assign(this.config, this._optionsService.config);
+  private initConfig() {
+    if (this.optionsService.config && isObject(this.optionsService.config)) {
+      Object.assign(this.config, this.optionsService.config);
     }
   }
 
   /**
    * Load ckeditor
    */
-  private _factory() {
-    this._setupService.loaded.subscribe(() => {
-      this._zone.runOutsideAngular(() => {
-        if (!this.inline) {
-          this._setupService.CKEDITOR.disableAutoInline = false;
-          this._editor = this._setupService.CKEDITOR.replace(this.editorRef.nativeElement, this.config);
-        } else {
-          this._setupService.CKEDITOR.disableAutoInline = true;
-          this._editor = this._setupService.CKEDITOR.inline(this.editorRef.nativeElement, this.config);
-        }
-        this._editor.setData(this._value);
-        this._bindEvents();
-      });
+  private factory() {
+    this.setupService.loaded.subscribe(() => {
+      if (!this.inline) {
+        this.setupService.CKEDITOR.disableAutoInline = false;
+        this.editor = this.setupService.CKEDITOR.replace(this.editorRef.nativeElement, this.config);
+      } else {
+        this.setupService.CKEDITOR.disableAutoInline = true;
+        this.editor = this.setupService.CKEDITOR.inline(this.editorRef.nativeElement, this.config);
+      }
+      this.bindEvents();
     });
   }
 
   /**
    * Binding ckeditor event
    */
-  private _bindEvents() {
-    this._editor.on('change', () => {
-      this._zone.run(() => {
-        this._value = this._editor.getData();
-        this._onchange(this._value);
-        this._ontouched();
-      });
+  private bindEvents() {
+    this.editor.on('instanceReady', (event) => {
+      this.ready.emit(event);
+      this.instanceReady.next(true);
+      this.instanceReady.complete();
     });
-    this._editor.on('instanceReady', (event) => {
-      this._zone.run(() => {
-        this.ready.emit(event);
-        this._instanceReady.next(true);
-        this._instanceReady.complete();
-      });
+    this.editor.on('change', () => {
+      this.editorChange(this.editor.getData());
     });
-    this._editor.on('focus', (event) => {
-      this._zone.run(() => {
-        this.focus.emit(event);
-      });
+    this.editor.on('focus', (event) => {
+      this.focus.emit(event);
     });
-    this._editor.on('blur', (event) => {
-      this._zone.run(() => {
-        this.blur.emit(event);
-        this._ontouched();
-      });
+    this.editor.on('blur', (event) => {
+      this.blur.emit(event);
+      this.editorTouched();
     });
-    this._editor.on('destroy', (event) => {
-      this._zone.run(() => {
-        this.destroy.emit(event);
-      });
+    this.editor.on('fileUploadRequest', (event) => {
+      this.fileUploadRequest.emit(event);
     });
-    this._editor.on('fileUploadRequest', (event) => {
-      this._zone.run(() => {
-        this.fileUploadRequest.emit(event);
-      });
-    });
-    this._editor.on('fileUploadResponse', (event) => {
-      this._zone.run(() => {
-        this.fileUploadResponse.emit(event);
-      });
+    this.editor.on('fileUploadResponse', (event) => {
+      this.fileUploadResponse.emit(event);
     });
   }
 
   /**
    * Destroy ckeditor
    */
-  private _destroy() {
-    if (this._editor) {
-      this._editor.destroy();
-      this._editor = null;
+  private destroy() {
+    if (this.editor) {
+      this.editor.destroy();
+      this.editor = null;
+      this.instanceReady.unsubscribe();
     }
   }
 }

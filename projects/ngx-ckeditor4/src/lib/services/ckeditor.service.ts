@@ -8,18 +8,18 @@ export class CkeditorService {
   /**
    * dynamic config
    */
-  _config: Subject<DynamicConfigInterface> = new Subject();
+  config: Subject<DynamicConfigInterface> = new Subject();
 
   /**
    * dynamic inline
    */
-  _inline: Subject<DynamicInlineInterface> = new Subject();
+  inline: Subject<DynamicInlineInterface> = new Subject();
 
   /**
    *  update config
    */
   updateConfig(config: any, id: string | number = null) {
-    this._config.next({
+    this.config.next({
       config: config,
       id: id
     });
@@ -29,7 +29,7 @@ export class CkeditorService {
    *  set inline
    */
   setInline(inline_mode: boolean, id: string | number = null) {
-    this._inline.next({
+    this.inline.next({
       status: inline_mode,
       id: id
     });
