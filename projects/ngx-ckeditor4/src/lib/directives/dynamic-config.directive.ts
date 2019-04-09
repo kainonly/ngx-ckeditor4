@@ -34,6 +34,6 @@ export class DynamicConfigDirective implements AfterContentInit, OnDestroy {
    */
   private ckeditorReused(config: any) {
     this.ngxCkeditorComponent.config = config;
-    this.ngxCkeditorComponent.reusedSubscribe();
+    // this.ngxCkeditorComponent.reusedSubscribe();
   }
 }

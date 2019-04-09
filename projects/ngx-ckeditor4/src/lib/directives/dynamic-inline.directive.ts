@@ -34,7 +34,7 @@ export class DynamicInlineDirective implements AfterContentInit, OnDestroy {
    */
   private ckeditorReused(status: boolean) {
     this.ngxCkeditorComponent.inline = status;
-    this.ngxCkeditorComponent.reusedSubscribe();
+    // this.ngxCkeditorComponent.reusedSubscribe();
   }
 }
 

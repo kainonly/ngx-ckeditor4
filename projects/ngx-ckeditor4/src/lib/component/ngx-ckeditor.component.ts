@@ -5,7 +5,6 @@ import {
   EventEmitter,
   forwardRef,
   Input,
-  NgZone,
   OnDestroy,
   OnInit,
   Output,
@@ -13,11 +12,12 @@ import {
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR} from '@angular/forms';
 import {isObject} from 'util';
-import {AsyncSubject, Observable} from 'rxjs';
+import {AsyncSubject, Subject} from 'rxjs';
+
 import {SetupService} from '../services/setup.service';
 import {OptionsService} from '../services/options.service';
-import {CkeditorService} from '../services/ckeditor.service';
 import {EventInfo} from '../types/eventInfo';
+import {debounceTime, map} from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-ckeditor',
@@ -44,91 +44,64 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() fileUploadRequest: EventEmitter<EventInfo> = new EventEmitter();
   @Output() fileUploadResponse: EventEmitter<EventInfo> = new EventEmitter();
 
+  private onChange: (html: string) => void;
+  private onTouched: () => void;
+
   private editor: any;
-  private instanceReady: AsyncSubject<boolean> = new AsyncSubject();
-  private editorChange: (value: string) => void;
-  private editorTouched: () => void;
+  private editorReady: AsyncSubject<boolean> = new AsyncSubject();
+  private editorChangeEvents: Subject<any> = new Subject();
 
   constructor(private setupService: SetupService,
-              private optionsService: OptionsService,
-              private ckeditorService: CkeditorService,
-              private zone: NgZone) {
-  }
-
-  ngOnInit() {
-    this.randomId();
-    this.initConfig();
-  }
-
-  ngAfterViewInit() {
-    this.factory();
-  }
-
-  ngOnDestroy() {
-    this.destroy();
+              private optionsService: OptionsService) {
   }
 
   writeValue(value: string) {
     if (!value) {
       return;
     }
-    this.instanceReady.subscribe(status => {
+    this.editorReady.subscribe(status => {
       if (status) {
-        console.log(value);
         this.editor.setData(value);
       }
     });
   }
 
-  registerOnChange(fn: (_: any) => {}) {
-    this.editorChange = fn;
-  }
-
-  registerOnTouched(fn: () => {}) {
-    this.editorTouched = fn;
-  }
-
-  /**
-   *  Ckeditor reused
-   */
-  reused(delay = 0): Observable<boolean> {
-    return Observable.create(observer => {
-      setTimeout(() => {
-        this.destroy();
-        this.randomId();
-        this.initConfig();
-        this.factory();
-        observer.next(true);
-        observer.complete();
-      }, delay);
+  ngOnInit() {
+    this.initial();
+    this.editorChangeEvents.pipe(
+      debounceTime(500),
+      map((event: any) => event.editor.getData())
+    ).subscribe(html => {
+      if (this.onChange) {
+        this.onChange(html);
+      }
     });
   }
 
-  /**
-   *  Ckeditor reused subscription
-   */
-  reusedSubscribe(delay = 0) {
-    this.reused(delay).subscribe(
-      () => {
-      },
-      () => {
-      }
-    );
+  ngAfterViewInit() {
+    this.editorFactory();
   }
 
-  /**
-   * Randomly set the id of the ckeditor
-   */
-  private randomId() {
-    if (!this.id) {
-      this.id = 'ckeditor_' + (Math.random() * 10000).toFixed(0);
-    }
+  ngOnDestroy() {
+    this.destroy();
+  }
+
+  registerOnChange(fn: (_: any) => {}) {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => {}) {
+    this.onTouched = fn;
   }
 
   /**
    * Initial the configuration of ckeditor
    */
-  private initConfig() {
+  private initial() {
+    if (!this.id) {
+      this.id = 'ckeditor_' + (Math.random() * 10000).toFixed(0);
+    }
+
     if (this.optionsService.config && isObject(this.optionsService.config)) {
       Object.assign(this.config, this.optionsService.config);
     }
@@ -137,7 +110,7 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Load ckeditor
    */
-  private factory() {
+  private editorFactory() {
     this.setupService.loaded.subscribe(() => {
       if (!this.inline) {
         this.setupService.CKEDITOR.disableAutoInline = false;
@@ -146,34 +119,33 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
         this.setupService.CKEDITOR.disableAutoInline = true;
         this.editor = this.setupService.CKEDITOR.inline(this.editorRef.nativeElement, this.config);
       }
-      this.bindEvents();
-    });
-  }
 
-  /**
-   * Binding ckeditor event
-   */
-  private bindEvents() {
-    this.editor.on('instanceReady', (event) => {
-      this.ready.emit(event);
-      this.instanceReady.next(true);
-      this.instanceReady.complete();
-    });
-    this.editor.on('change', () => {
-      this.editorChange(this.editor.getData());
-    });
-    this.editor.on('focus', (event) => {
-      this.focus.emit(event);
-    });
-    this.editor.on('blur', (event) => {
-      this.blur.emit(event);
-      this.editorTouched();
-    });
-    this.editor.on('fileUploadRequest', (event) => {
-      this.fileUploadRequest.emit(event);
-    });
-    this.editor.on('fileUploadResponse', (event) => {
-      this.fileUploadResponse.emit(event);
+      this.editor.on('instanceReady', (event) => {
+        this.ready.emit(event);
+        this.editorReady.next(true);
+        this.editorReady.complete();
+      });
+
+      this.editor.on('change', (event) => {
+        this.editorChangeEvents.next(event);
+      });
+
+      this.editor.on('focus', (event) => {
+        this.focus.emit(event);
+      });
+
+      this.editor.on('blur', (event) => {
+        this.blur.emit(event);
+        this.onTouched();
+      });
+
+      this.editor.on('fileUploadRequest', (event) => {
+        this.fileUploadRequest.emit(event);
+      });
+
+      this.editor.on('fileUploadResponse', (event) => {
+        this.fileUploadResponse.emit(event);
+      });
     });
   }
 
@@ -184,7 +156,8 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.editor) {
       this.editor.destroy();
       this.editor = null;
-      this.instanceReady.unsubscribe();
+      this.editorReady.unsubscribe();
+      this.editorChangeEvents.unsubscribe();
     }
   }
 }
