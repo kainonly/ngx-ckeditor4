@@ -14,11 +14,13 @@ registerLocaleData(en);
 
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
+import {FormComponent} from './form/form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    FormComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +34,7 @@ import {HomeComponent} from './home/home.component';
     }),
     RouterModule.forRoot([
       {path: '', component: HomeComponent},
+      {path: 'form', component: FormComponent},
     ], {useHash: true})
   ],
   providers: [{provide: NZ_I18N, useValue: en_US}],
