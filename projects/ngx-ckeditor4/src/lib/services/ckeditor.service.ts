@@ -20,18 +20,18 @@ export class CkeditorService {
    */
   updateConfig(config: any, id: string | number = null) {
     this.config.next({
-      config: config,
-      id: id
+      config,
+      id
     });
   }
 
   /**
    *  set inline
    */
-  setInline(inline_mode: boolean, id: string | number = null) {
+  setInline(mode: boolean, id: string | number = null) {
     this.inline.next({
-      status: inline_mode,
-      id: id
+      status: mode,
+      id
     });
   }
 }

@@ -4,17 +4,17 @@ import {CkeditorService} from '../services/ckeditor.service';
 import {Subscription} from 'rxjs';
 
 @Directive({
-  selector: '[dynamic-inline]'
+  selector: '[ckDynamicInline]'
 })
 export class DynamicInlineDirective implements AfterContentInit, OnDestroy {
-  private _inlineSubscription: Subscription;
+  private inlineSubscription: Subscription;
 
   constructor(private ngxCkeditorComponent: NgxCkeditorComponent,
               private ckeditorService: CkeditorService) {
   }
 
   ngAfterContentInit() {
-    this._inlineSubscription = this.ckeditorService.inline.subscribe(params => {
+    this.inlineSubscription = this.ckeditorService.inline.subscribe(params => {
       if (!params.id) {
         this.ckeditorReused(params.status);
       } else {
@@ -26,7 +26,7 @@ export class DynamicInlineDirective implements AfterContentInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._inlineSubscription.unsubscribe();
+    this.inlineSubscription.unsubscribe();
   }
 
   /**
