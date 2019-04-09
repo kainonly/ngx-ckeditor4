@@ -9,16 +9,16 @@ import {Subscription} from 'rxjs';
 export class DynamicInlineDirective implements AfterContentInit, OnDestroy {
   private _inlineSubscription: Subscription;
 
-  constructor(private _ngxCkeditorComponent: NgxCkeditorComponent,
-              private _ckeditorService: CkeditorService) {
+  constructor(private ngxCkeditorComponent: NgxCkeditorComponent,
+              private ckeditorService: CkeditorService) {
   }
 
   ngAfterContentInit() {
-    this._inlineSubscription = this._ckeditorService._inline.subscribe(params => {
+    this._inlineSubscription = this.ckeditorService.inline.subscribe(params => {
       if (!params.id) {
         this.ckeditorReused(params.status);
       } else {
-        if (params.id === this._ngxCkeditorComponent.id) {
+        if (params.id === this.ngxCkeditorComponent.id) {
           this.ckeditorReused(params.status);
         }
       }
@@ -33,8 +33,8 @@ export class DynamicInlineDirective implements AfterContentInit, OnDestroy {
    *  Start Reused
    */
   private ckeditorReused(status: boolean) {
-    this._ngxCkeditorComponent.inline = status;
-    this._ngxCkeditorComponent.reusedSubscribe();
+    this.ngxCkeditorComponent.inline = status;
+    this.ngxCkeditorComponent.reusedSubscribe();
   }
 }
 
