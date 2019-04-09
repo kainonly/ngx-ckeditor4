@@ -13,11 +13,12 @@ import {
 import {NG_VALUE_ACCESSOR} from '@angular/forms';
 import {isObject} from 'util';
 import {AsyncSubject, Subject} from 'rxjs';
+import {debounceTime, map} from 'rxjs/operators';
 
 import {SetupService} from '../services/setup.service';
 import {OptionsService} from '../services/options.service';
 import {EventInfo} from '../types/eventInfo';
-import {debounceTime, map} from 'rxjs/operators';
+
 
 @Component({
   selector: 'ngx-ckeditor',
@@ -38,42 +39,31 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() config: any = {};
   @Input() inline: boolean;
 
-  @Output() ready: EventEmitter<any> = new EventEmitter();
-  @Output() focus: EventEmitter<any> = new EventEmitter();
-  @Output() blur: EventEmitter<any> = new EventEmitter();
+  @Output() ready: EventEmitter<EventInfo> = new EventEmitter();
+  @Output() focus: EventEmitter<EventInfo> = new EventEmitter();
+  @Output() blur: EventEmitter<EventInfo> = new EventEmitter();
   @Output() fileUploadRequest: EventEmitter<EventInfo> = new EventEmitter();
   @Output() fileUploadResponse: EventEmitter<EventInfo> = new EventEmitter();
-
-  private onChange: (html: string) => void;
-  private onTouched: () => void;
 
   private editor: any;
   private editorReady: AsyncSubject<boolean> = new AsyncSubject();
   private editorChangeEvents: Subject<any> = new Subject();
+  private onChange: (HTMLRows: string) => void;
+  private onTouched: () => void;
 
   constructor(private setupService: SetupService,
               private optionsService: OptionsService) {
   }
 
-  writeValue(value: string) {
-    if (!value) {
-      return;
-    }
-    this.editorReady.subscribe(status => {
-      if (status) {
-        this.editor.setData(value);
-      }
-    });
-  }
-
   ngOnInit() {
-    this.initial();
+    this.editorInitial();
     this.editorChangeEvents.pipe(
-      debounceTime(500),
+      debounceTime(200),
       map((event: any) => event.editor.getData())
     ).subscribe(html => {
       if (this.onChange) {
-        this.onChange(html);
+        const HTMLRows = html.replace(/\n/g, '');
+        this.onChange(HTMLRows);
       }
     });
   }
@@ -83,7 +73,21 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy();
+    this.editorDestroy();
+  }
+
+  /**
+   * form write value
+   */
+  writeValue(value: string) {
+    if (!value) {
+      return;
+    }
+    this.editorReady.subscribe(status => {
+      if (status) {
+        this.editor.setData(value);
+      }
+    });
   }
 
   registerOnChange(fn: (_: any) => {}) {
@@ -97,7 +101,7 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Initial the configuration of ckeditor
    */
-  private initial() {
+  private editorInitial() {
     if (!this.id) {
       this.id = 'ckeditor_' + (Math.random() * 10000).toFixed(0);
     }
@@ -152,7 +156,7 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Destroy ckeditor
    */
-  private destroy() {
+  private editorDestroy() {
     if (this.editor) {
       this.editor.destroy();
       this.editor = null;
