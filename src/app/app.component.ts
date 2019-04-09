@@ -1,24 +1,33 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  form: FormGroup;
+export class AppComponent implements OnInit, OnDestroy {
+  private routerEvent: Subscription;
 
-  constructor(private formBuilder: FormBuilder) {
+  activePath = '/';
+  routerlinks = [
+    {path: '/', label: 'Hello Ckeditor'},
+  ];
+
+  constructor(private router: Router) {
   }
 
-  ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      text: [null]
+  ngOnInit() {
+    this.routerEvent = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.activePath = event.url;
+      }
     });
   }
 
-  submit() {
-    console.log(this.form.value);
+  ngOnDestroy() {
+    this.routerEvent.unsubscribe();
   }
+
 }

@@ -1,12 +1,18 @@
-<div class="box">
-  <nz-card [nzBordered]="false" nzTitle="所见即所得">
-    <form nz-form [formGroup]="form" (ngSubmit)="submit()">
-      <ngx-ckeditor formControlName="text"></ngx-ckeditor>
-      <nz-form-item>
-        <nz-form-control>
-          <button nz-button nzType="primary">Submit</button>
-        </nz-form-control>
-      </nz-form-item>
-    </form>
-  </nz-card>
-</div>
+<nz-layout class="main">
+  <nz-sider>
+    <div class="logo">NGX-Ckeditor4</div>
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'">
+      <ng-template ngFor let-x [ngForOf]="routerlinks">
+        <li nz-menu-item [routerLink]="x.path" [nzSelected]="activePath===x.path">
+          {{x.label}}
+        </li>
+      </ng-template>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+    <nz-footer style="text-align: center;">Ant Design Implement By Angular</nz-footer>
+  </nz-layout>
+</nz-layout>
