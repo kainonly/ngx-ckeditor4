@@ -22,11 +22,11 @@ As the library is using [ckeditor](https://ckeditor.com/docs/ckeditor4/latest/in
  "architect": {
     "build": {
       "assets": [
-+         {
-+          "glob": "**/*",
-+          "input": "./node_modules/ckeditor/",
-+          "output": "/assets/ckeditor/"
-+         }
+          {
+            "glob": "**/*",
+            "input": "./node_modules/ckeditor/",
+            "output": "/assets/ckeditor/"
+          }
       ]
     }
   }
