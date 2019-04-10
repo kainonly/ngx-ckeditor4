@@ -9,5 +9,4 @@ export class HomeComponent {
   text: string;
   inline = false;
   disabled = false;
-
 }

@@ -39,6 +39,7 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
   @ViewChild('htmlTextAreaElement') htmlTextAreaElement: ElementRef;
 
   @Input() id: string;
+  @Input() locale: string;
   @Input() config: any = {};
   @Input() inline: boolean;
 
@@ -121,6 +122,15 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
       this.inline = changes.inline.currentValue;
       this.update();
     }
+    if (changes.hasOwnProperty('locale') && !changes.locale.firstChange) {
+      this.setLanguage(changes.locale.currentValue);
+      this.update();
+    }
+    if (changes.hasOwnProperty('config') && !changes.config.firstChange) {
+      delete this.config.language;
+      this.config = changes.config.currentValue;
+      this.update();
+    }
   }
 
   ngOnDestroy() {
@@ -148,6 +158,10 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
 
     if (this.optionsService.config && isObject(this.optionsService.config)) {
       Object.assign(this.config, this.optionsService.config);
+    }
+
+    if (this.locale) {
+      this.setLanguage(this.locale);
     }
   }
 
@@ -208,6 +222,17 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
       this.editor = null;
       this.editorReady.unsubscribe();
       this.editorChangeEvents.unsubscribe();
+    }
+  }
+
+  private setLanguage(locale: string) {
+    switch (locale) {
+      case 'en_us':
+        this.config.language = 'en';
+        break;
+      case 'zh_cn':
+        this.config.language = 'zh-CN';
+        break;
     }
   }
 }

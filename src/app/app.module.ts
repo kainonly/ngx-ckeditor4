@@ -15,12 +15,14 @@ registerLocaleData(en);
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
 import {FormComponent} from './form/form.component';
+import {ConfigComponent} from './config/config.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     FormComponent,
+    ConfigComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,6 +36,7 @@ import {FormComponent} from './form/form.component';
     }),
     RouterModule.forRoot([
       {path: '', component: HomeComponent},
+      {path: 'config', component: ConfigComponent},
       {path: 'form', component: FormComponent},
     ], {useHash: true})
   ],
