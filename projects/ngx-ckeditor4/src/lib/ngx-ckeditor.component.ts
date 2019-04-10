@@ -4,23 +4,26 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
-  Input,
+  Input, OnChanges,
   OnDestroy,
   OnInit,
-  Output,
+  Output, SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR} from '@angular/forms';
 import {isObject} from 'util';
 import {AsyncSubject, Subject} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
-import {SetupService} from '../services/setup.service';
-import {OptionsService} from '../services/options.service';
-import {EventInfo} from '../types/eventInfo';
+import {SetupService} from './setup.service';
+import {OptionsService} from './options.service';
+import {EventInfo} from './eventInfo';
 
 @Component({
   selector: 'ngx-ckeditor',
-  templateUrl: './ngx-ckeditor.component.html',
+  template: `<textarea #htmlTextAreaElement [id]="id"></textarea>`,
+  styles: [`textarea {
+    display: none;
+  }`],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -29,8 +32,8 @@ import {EventInfo} from '../types/eventInfo';
     },
   ],
 })
-export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('editor') editorRef: ElementRef;
+export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+  @ViewChild('htmlTextAreaElement') htmlTextAreaElement: ElementRef;
 
   @Input() id: string;
   @Input() config: any = {};
@@ -50,27 +53,6 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private setupService: SetupService,
               private optionsService: OptionsService) {
-  }
-
-  ngOnInit() {
-    this.editorInitial();
-    this.editorChangeEvents.pipe(
-      debounceTime(200),
-      map((event: any) => event.editor.getData())
-    ).subscribe(html => {
-      if (this.onChange) {
-        const HTMLRows = html.replace(/\n/g, '');
-        this.onChange(HTMLRows);
-      }
-    });
-  }
-
-  ngAfterViewInit() {
-    this.editorFactory();
-  }
-
-  ngOnDestroy() {
-    this.editorDestroy();
   }
 
   /**
@@ -95,9 +77,32 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onTouched = fn;
   }
 
-  setInline(mode: boolean) {
-    this.inline = mode;
-    this.update();
+  ngOnInit() {
+    this.editorInitial();
+    this.editorChangeEvents.pipe(
+      debounceTime(200),
+      map((event: any) => event.editor.getData())
+    ).subscribe(html => {
+      if (this.onChange) {
+        const HTMLRows = html.replace(/\n/g, '');
+        this.onChange(HTMLRows);
+      }
+    });
+  }
+
+  ngAfterViewInit() {
+    this.editorFactory();
+  }
+
+  ngOnDestroy() {
+    this.editorDestroy();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.hasOwnProperty('inline') && !changes.inline.firstChange) {
+      this.inline = changes.inline.currentValue;
+      this.update();
+    }
   }
 
   /**
@@ -131,10 +136,10 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setupService.loaded.subscribe(() => {
       if (!this.inline) {
         this.setupService.CKEDITOR.disableAutoInline = false;
-        this.editor = this.setupService.CKEDITOR.replace(this.editorRef.nativeElement, this.config);
+        this.editor = this.setupService.CKEDITOR.replace(this.htmlTextAreaElement.nativeElement, this.config);
       } else {
         this.setupService.CKEDITOR.disableAutoInline = true;
-        this.editor = this.setupService.CKEDITOR.inline(this.editorRef.nativeElement, this.config);
+        this.editor = this.setupService.CKEDITOR.inline(this.htmlTextAreaElement.nativeElement, this.config);
       }
 
       this.editor.on('instanceReady', (event) => {
