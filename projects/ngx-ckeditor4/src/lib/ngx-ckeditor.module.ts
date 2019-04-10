@@ -1,10 +1,10 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {NgxCkeditorComponent} from './component/ngx-ckeditor.component';
+import {NgxCkeditorComponent} from './ngx-ckeditor.component';
 
-import {OptionsService} from './services/options.service';
-import {SetupService} from './services/setup.service';
+import {OptionsService} from './options.service';
+import {SetupService} from './setup.service';
 
 @NgModule({
   imports: [

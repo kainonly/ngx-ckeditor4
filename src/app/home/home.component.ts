@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {NgxCkeditorComponent} from 'ngx-ckeditor4';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +6,6 @@ import {NgxCkeditorComponent} from 'ngx-ckeditor4';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, AfterViewInit {
-  @ViewChild('ckeditor') ckeditor: NgxCkeditorComponent;
 
   text: string;
   inline = false;
@@ -16,10 +14,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-  }
-
-  change(event) {
-    this.ckeditor.setInline(event);
   }
 
 
