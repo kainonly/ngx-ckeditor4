@@ -6,6 +6,12 @@
     </nz-radio-group>
   </nz-form-item>
   <nz-form-item>
-    <ngx-ckeditor #ckeditor [(ngModel)]="text" [inline]="inline"></ngx-ckeditor>
+    <nz-radio-group [(ngModel)]="disabled">
+      <label nz-radio-button [nzValue]="false">Normal</label>
+      <label nz-radio-button [nzValue]="true">Disabled</label>
+    </nz-radio-group>
+  </nz-form-item>
+  <nz-form-item>
+    <ngx-ckeditor #ckeditor [(ngModel)]="text" [inline]="inline" [disabled]="disabled"></ngx-ckeditor>
   </nz-form-item>
 </nz-card>

@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Renderer2} from '@angular/core';
 import {OptionsService} from './options.service';
-import {AsyncSubject, fromEvent} from 'rxjs';
+import {AsyncSubject, BehaviorSubject, fromEvent} from 'rxjs';
 
 declare let CKEDITOR: any;
 declare let document: Document;
@@ -10,7 +10,7 @@ export class SetupService {
   /**
    * Used to determine whether to install
    */
-  setup = false;
+  setup: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   /**
    * Judge loading status
@@ -22,25 +22,30 @@ export class SetupService {
    */
   CKEDITOR: any;
 
+  /**
+   * scripts
+   */
+  private elementScripts: HTMLElement;
+
   constructor(private options: OptionsService) {
   }
 
   /**
    * Lazy loading ckeditor library
    */
-  loadScripts() {
-    if (!this.CKEDITOR) {
-      this.setup = true;
-      const script = document.createElement('script');
-      script.setAttribute('type', 'text/javascript');
-      script.setAttribute('src', this.options.url);
-      document.body.appendChild(script);
-      fromEvent(script, 'load').subscribe(() => {
+  loadScripts(render: Renderer2) {
+    if (!this.elementScripts && !this.CKEDITOR) {
+      this.setup.next(true);
+      this.elementScripts = render.createElement('script');
+      render.setAttribute(this.elementScripts, 'type', 'text/javascript');
+      render.setAttribute(this.elementScripts, 'src', this.options.url);
+      render.appendChild(document.body, this.elementScripts);
+      fromEvent(this.elementScripts, 'load').subscribe(() => {
         this.CKEDITOR = CKEDITOR;
-        this.loaded.next(true);
+        this.loaded.next(null);
         this.loaded.complete();
       });
-      fromEvent(script, 'error').subscribe(() => {
+      fromEvent(this.elementScripts, 'error').subscribe(() => {
         console.warn('CKEditor load failed');
       });
     }
