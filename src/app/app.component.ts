@@ -15,6 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
     {path: '/', label: 'Hello Ckeditor'},
     {path: '/config', label: 'Dynamic Config'},
     {path: '/form', label: 'In Form'},
+    {path: '/upload', label: 'Upload'},
   ];
 
   constructor(private router: Router) {

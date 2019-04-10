@@ -16,6 +16,7 @@ import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
 import {FormComponent} from './form/form.component';
 import {ConfigComponent} from './config/config.component';
+import {UploadComponent} from './upload/upload.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import {ConfigComponent} from './config/config.component';
     HomeComponent,
     FormComponent,
     ConfigComponent,
+    UploadComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +40,7 @@ import {ConfigComponent} from './config/config.component';
       {path: '', component: HomeComponent},
       {path: 'config', component: ConfigComponent},
       {path: 'form', component: FormComponent},
+      {path: 'upload', component: UploadComponent},
     ], {useHash: true})
   ],
   providers: [{provide: NZ_I18N, useValue: en_US}],
