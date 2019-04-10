@@ -36,13 +36,38 @@ import {UploadComponent} from './upload/upload.component';
     NgxCkeditorModule.forRoot({
       url: 'https://cdn.bootcss.com/ckeditor/4.11.1/ckeditor.js',
       config: {
-        filebrowserUploadUrl: 'http://127.0.0.1:8000/index/index/uploads?field=upload',
+        filebrowserUploadMethod: 'xhr',
+        filebrowserUploadUrl: 'http://127.0.0.1:8000/index/index/uploads',
       },
       fileUploadRequest(event) {
-        console.log(event);
+        try {
+          const fileLoader = event.data.fileLoader;
+          const formData = new FormData();
+          const xhr = fileLoader.xhr;
+          xhr.withCredentials = true;
+          xhr.open('POST', fileLoader.uploadUrl, true);
+          formData.append('image', fileLoader.file, fileLoader.fileName);
+          fileLoader.xhr.send(formData);
+          event.stop();
+        } catch (e) {
+          console.warn(e);
+        }
       },
       fileUploadResponse(event) {
-        console.log(event);
+        try {
+          event.stop();
+          const data = event.data;
+          const xhr = data.fileLoader.xhr;
+          const response = JSON.parse(xhr.responseText);
+          if (response.error) {
+            data.message = 'upload fail';
+            event.cancel();
+          } else {
+            data.url = 'http://127.0.0.1:8000/uploads/' + response.data.save_name;
+          }
+        } catch (e) {
+          console.warn(e);
+        }
       }
     }),
     RouterModule.forRoot([
