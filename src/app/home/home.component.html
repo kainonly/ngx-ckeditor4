@@ -1,10 +1,11 @@
 <nz-card nzTitle="Hello Ckeditor" [nzBordered]="false">
-  <nz-radio-group [(ngModel)]="inline">
-    <label nz-radio-button [nzValue]="false">Normal</label>
-    <label nz-radio-button [nzValue]="true">Inline</label>
-  </nz-radio-group>
-  <br>
-  <ngx-ckeditor ckDynamicInline
-                [(ngModel)]="text"
-                (ngModelChange)="change($event)"></ngx-ckeditor>
+  <nz-form-item>
+    <nz-radio-group [(ngModel)]="inline" (ngModelChange)="change($event)">
+      <label nz-radio-button [nzValue]="false">Normal</label>
+      <label nz-radio-button [nzValue]="true">Inline</label>
+    </nz-radio-group>
+  </nz-form-item>
+  <nz-form-item>
+    <ngx-ckeditor #ckeditor [(ngModel)]="text"></ngx-ckeditor>
+  </nz-form-item>
 </nz-card>

@@ -14,11 +14,9 @@ import {NG_VALUE_ACCESSOR} from '@angular/forms';
 import {isObject} from 'util';
 import {AsyncSubject, Subject} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
-
 import {SetupService} from '../services/setup.service';
 import {OptionsService} from '../services/options.service';
 import {EventInfo} from '../types/eventInfo';
-
 
 @Component({
   selector: 'ngx-ckeditor',
@@ -97,10 +95,15 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onTouched = fn;
   }
 
+  setInline(mode: boolean) {
+    this.inline = mode;
+    this.update();
+  }
+
   /**
    * Update Ckeditor
    */
-  update() {
+  private update() {
     this.editorDestroy();
     this.editorReady = new AsyncSubject();
     this.editorChangeEvents = new Subject();

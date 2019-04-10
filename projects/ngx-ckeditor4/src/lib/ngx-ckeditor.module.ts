@@ -2,26 +2,19 @@ import {ModuleWithProviders, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {NgxCkeditorComponent} from './component/ngx-ckeditor.component';
-import {DynamicConfigDirective} from './directives/dynamic-config.directive';
-import {DynamicInlineDirective} from './directives/dynamic-inline.directive';
 
 import {OptionsService} from './services/options.service';
 import {SetupService} from './services/setup.service';
-import {CkeditorService} from './services/ckeditor.service';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [
-    NgxCkeditorComponent,
-    DynamicConfigDirective,
-    DynamicInlineDirective
+    NgxCkeditorComponent
   ],
   exports: [
-    NgxCkeditorComponent,
-    DynamicConfigDirective,
-    DynamicInlineDirective
+    NgxCkeditorComponent
   ]
 })
 export class NgxCkeditorModule {
@@ -34,7 +27,6 @@ export class NgxCkeditorModule {
       providers: [
         {provide: OptionsService, useValue: options},
         SetupService,
-        CkeditorService
       ],
     };
   }
