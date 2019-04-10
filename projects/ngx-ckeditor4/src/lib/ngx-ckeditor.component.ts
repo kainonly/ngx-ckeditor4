@@ -4,15 +4,16 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
-  Input, OnChanges,
+  Input,
+  OnChanges,
   OnDestroy,
   OnInit,
-  Output, SimpleChanges,
+  Output, Renderer2, SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR} from '@angular/forms';
 import {isObject} from 'util';
-import {AsyncSubject, Subject} from 'rxjs';
+import {AsyncSubject, BehaviorSubject, Subject} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {SetupService} from './setup.service';
 import {OptionsService} from './options.service';
@@ -50,31 +51,50 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
   private editorChangeEvents: Subject<any> = new Subject();
   private onChange: (HTMLRows: string) => void;
   private onTouched: () => void;
+  private disabled: boolean;
 
   constructor(private setupService: SetupService,
-              private optionsService: OptionsService) {
+              private optionsService: OptionsService,
+              private render: Renderer2) {
+    if (!setupService.setup.getValue()) {
+      setupService.loadScripts(render);
+    }
   }
 
   /**
-   * form write value
+   * Writes a new value to the element.
    */
   writeValue(value: string) {
     if (!value) {
       return;
     }
-    this.editorReady.subscribe(status => {
-      if (status) {
-        this.editor.setData(value);
-      }
+    this.editorReady.subscribe(() => {
+      this.editor.setData(value);
     });
   }
 
+  /**
+   * Registers a callback function that is called when the control's value changes in the UI.
+   */
   registerOnChange(fn: (_: any) => {}) {
     this.onChange = fn;
   }
 
+  /**
+   * Registers a callback function is called by the forms API on initialization to update the form model on blur.
+   */
   registerOnTouched(fn: () => {}) {
     this.onTouched = fn;
+  }
+
+  /**
+   * Function that is called by the forms API when the control status changes to or from 'DISABLED'.
+   */
+  setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+    this.editorReady.subscribe(() => {
+      this.editor.setReadOnly(this.disabled);
+    });
   }
 
   ngOnInit() {
@@ -94,15 +114,15 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
     this.editorFactory();
   }
 
-  ngOnDestroy() {
-    this.editorDestroy();
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.hasOwnProperty('inline') && !changes.inline.firstChange) {
       this.inline = changes.inline.currentValue;
       this.update();
     }
+  }
+
+  ngOnDestroy() {
+    this.editorDestroy();
   }
 
   /**
@@ -142,9 +162,13 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
         this.editor = this.setupService.CKEDITOR.inline(this.htmlTextAreaElement.nativeElement, this.config);
       }
 
+      if (this.disabled !== undefined) {
+        this.editor.config.readOnly = this.disabled;
+      }
+
       this.editor.on('instanceReady', (event) => {
         this.ready.emit(event);
-        this.editorReady.next(true);
+        this.editorReady.next(null);
         this.editorReady.complete();
       });
 
