@@ -10,7 +10,7 @@
 To add ngx-ckeditor4 library to your package.json use the following command.
 
 ```shell
-$ npm install ngx-ckeditor4 --save
+# npm install ngx-ckeditor4 --save
 ```
 
 As the library is using [ckeditor](https://ckeditor.com/docs/ckeditor4/latest/index.html) you will need to add node_modules/ckeditor/** to your application assets.
@@ -95,9 +95,9 @@ You can also use CDN from [cdn.ckeditor.com](http://cdn.ckeditor.com/),The URL s
 
 > `https://cdn.ckeditor.com/[version.number]/[distribution]/ckeditor.js`
 
-#### Component
+#### Template
 
-In you component
+In Template
 
 ```html
 <!-- Basic Use -->
