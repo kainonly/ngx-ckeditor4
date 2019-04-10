@@ -15,7 +15,7 @@ $ npm install ngx-ckeditor4 --save
 
 As the library is using [ckeditor](https://ckeditor.com/docs/ckeditor4/latest/index.html) you will need to add node_modules/ckeditor/** to your application assets.
 
-#### angular.json
+#### Set angular.json
 
 ```json
 {
@@ -48,7 +48,41 @@ import { AppComponent } from './app.component'
 @NgModule({
   imports: [
 +   NgxCkeditorModule.forRoot({
-+     url: './assets/ckeditor/ckeditor.js'
++      url: 'https://cdn.bootcss.com/ckeditor/4.11.1/ckeditor.js',
++      config: {
++        filebrowserUploadMethod: 'xhr',
++        filebrowserUploadUrl: 'http://127.0.0.1:8000/index/index/uploads',
++      },
++      fileUploadRequest(event) {
++        try {
++          const fileLoader = event.data.fileLoader;
++          const formData = new FormData();
++          const xhr = fileLoader.xhr;
++          xhr.withCredentials = true;
++          xhr.open('POST', fileLoader.uploadUrl, true);
++          formData.append('image', fileLoader.file, fileLoader.fileName);
++          fileLoader.xhr.send(formData);
++          event.stop();
++        } catch (e) {
++          console.warn(e);
++        }
++      },
++      fileUploadResponse(event) {
++        try {
++          event.stop();
++          const data = event.data;
++          const xhr = data.fileLoader.xhr;
++          const response = JSON.parse(xhr.responseText);
++          if (response.error) {
++            data.message = 'upload fail';
++            event.cancel();
++          } else {
++            data.url = 'http://127.0.0.1:8000/uploads/' + response.data.save_name;
++          }
++        } catch (e) {
++          console.warn(e);
++        }
++      }
 +   }),
   ],
   declarations: [AppComponent],
@@ -67,21 +101,34 @@ In you component
 
 ```html
 <!-- Basic Use -->
-<ngx-ckeditor [(ngModel)]="text"></ngx-ckeditor>
+ <ngx-ckeditor [(ngModel)]="text" [inline]="inline" [disabled]="disabled"></ngx-ckeditor>
 
-<!-- With Config -->
-<ngx-ckeditor [(ngModel)]="text" [config]="config"></ngx-ckeditor>
+<!-- Set Config & Locale -->
+<ngx-ckeditor [(ngModel)]="text" [config]="config" [locale]="locale"></ngx-ckeditor>
 
-<!-- On Change -->
-<ngx-ckeditor [(ngModel)]="text" 
-              (ngModelChange)="change($event)"></ngx-ckeditor>
+<!-- In Forms -->
+<ngx-ckeditor formControlName="text"></ngx-ckeditor>
 
-<!-- Other Event -->
+<!-- On Event -->
 <ngx-ckeditor [(ngModel)]="text" 
               (ready)="ready($event)"
               (focus)="focus($event)"
-              (blur)="blur($event)"></ngx-ckeditor>
+              (blur)="blur($event)"
+              (fileUploadRequest)="fileUploadRequest($event)"
+              (fileUploadResponse)="fileUploadResponse($event)"></ngx-ckeditor>
 ```
+
+- `@Input() id: string` editor ID
+- `@Input() locale: string` editor language, en_us => en, zh_cn => zh-CN
+- `@Input() config: any = {}` editor config
+- `@Input() inline: boolean` editor inline mode
+- `@Input() fileUploadRequestCustom = false` editor turn on customization fileUploadRequest
+- `@Input() fileUploadResponseCustom = false` editor turn on customization fileUploadResponse
+- `@Output() ready: EventEmitter<EventInfo>` editor on events ready
+- `@Output() focus: EventEmitter<EventInfo>` editor on events focus
+- `@Output() blur: EventEmitter<EventInfo>` editor on events blur
+- `@Output() fileUploadRequest: EventEmitter<EventInfo>` editor on events fileUploadRequest
+- `@Output() fileUploadResponse: EventEmitter<EventInfo>` editor on events fileUploadResponse
 
 #### License
 
