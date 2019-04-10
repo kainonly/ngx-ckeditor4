@@ -1,0 +1,17 @@
+<nz-card nzTitle="Dynamic Config" [nzBordered]="false">
+  <nz-form-item>
+    <nz-radio-group [(ngModel)]="locale">
+      <label nz-radio-button nzValue="en_us">en-us</label>
+      <label nz-radio-button nzValue="zh_cn">zh-cn</label>
+    </nz-radio-group>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-radio-group [(ngModel)]="config">
+      <label nz-radio-button [nzValue]="{}">default</label>
+      <label nz-radio-button [nzValue]="{toolbar:basic}">basic</label>
+    </nz-radio-group>
+  </nz-form-item>
+  <nz-form-item>
+    <ngx-ckeditor [(ngModel)]="text" [config]="config" [locale]="locale"></ngx-ckeditor>
+  </nz-form-item>
+</nz-card>
