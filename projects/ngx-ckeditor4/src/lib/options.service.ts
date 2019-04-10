@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {EventInfo} from './eventInfo';
 
 @Injectable()
 export class OptionsService {
@@ -10,5 +11,15 @@ export class OptionsService {
   /**
    * Set the master configuration of ckeditor
    */
-  config?: any;
+  config?: {
+    skin?: string,
+    height?: number,
+    filebrowserUploadMethod?: string,
+    filebrowserUploadUrl?: string,
+    [key: string]: any
+  };
+
+  fileUploadRequest?(event: EventInfo): void;
+
+  fileUploadResponse?(event: EventInfo): void;
 }

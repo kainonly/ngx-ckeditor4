@@ -19,7 +19,7 @@ export class NgxCkeditorModule {
   /**
    * Set Module
    */
-  static forRoot(options: any): ModuleWithProviders<NgxCkeditorModule> {
+  static forRoot(options: OptionsService): ModuleWithProviders<NgxCkeditorModule> {
     return {
       ngModule: NgxCkeditorModule,
       providers: [
