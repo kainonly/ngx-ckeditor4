@@ -10,7 +10,7 @@
 To add ngx-ckeditor4 library to your package.json use the following command.
 
 ```shell
-# npm install ngx-ckeditor4 --save
+npm install ngx-ckeditor4 --save
 ```
 
 As the library is using [ckeditor](https://ckeditor.com/docs/ckeditor4/latest/index.html) you will need to add node_modules/ckeditor/** to your application assets.
@@ -37,7 +37,7 @@ If you are using Angular CLI you can follow the [angular.json](https://cli.angul
 
 #### Configuration
 
-You must import NgxCkeditorModule inside your main application module (usually named AppModule) with forRoot to be able to use ckeditor component.
+You must import NgxCkeditorModule inside your main application module (usually named AppModule) with forRoot to be able to use ckeditor component.`fileUploadRequest(event)` & `fileUploadResponse(event)` is general definition.
 
 ```typescript
 import { NgModule } from '@angular/core';
@@ -97,7 +97,7 @@ You can also use CDN from [cdn.ckeditor.com](http://cdn.ckeditor.com/),The URL s
 
 #### Template
 
-In Template
+In HTML Template
 
 ```html
 <!-- Basic Use -->
@@ -118,10 +118,14 @@ In Template
               (fileUploadResponse)="fileUploadResponse($event)"></ngx-ckeditor>
 ```
 
+#### Component
+
+NgxCkeditorComponent
+
 - `@Input() id: string` editor ID
-- `@Input() locale: string` editor language, en_us => en, zh_cn => zh-CN
-- `@Input() config: any = {}` editor config
-- `@Input() inline: boolean` editor inline mode
+- `@Input() locale: string` editor language, **en_us => en, zh_cn => zh-CN**, support dynamic
+- `@Input() config: any = {}` editor config, support dynamic
+- `@Input() inline: boolean` editor inline mode, support dynamic
 - `@Input() fileUploadRequestCustom = false` editor turn on customization fileUploadRequest
 - `@Input() fileUploadResponseCustom = false` editor turn on customization fileUploadResponse
 - `@Output() ready: EventEmitter<EventInfo>` editor on events ready
