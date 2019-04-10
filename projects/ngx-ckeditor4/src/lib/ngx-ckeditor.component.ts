@@ -8,12 +8,14 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  Output, Renderer2, SimpleChanges,
+  Output,
+  Renderer2,
+  SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR} from '@angular/forms';
 import {isObject} from 'util';
-import {AsyncSubject, BehaviorSubject, Subject} from 'rxjs';
+import {AsyncSubject, Subject} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {SetupService} from './setup.service';
 import {OptionsService} from './options.service';
