@@ -34,7 +34,16 @@ import {UploadComponent} from './upload/upload.component';
     HttpClientModule,
     BrowserAnimationsModule,
     NgxCkeditorModule.forRoot({
-      url: 'https://cdn.bootcss.com/ckeditor/4.11.1/ckeditor.js'
+      url: 'https://cdn.bootcss.com/ckeditor/4.11.1/ckeditor.js',
+      config: {
+        filebrowserUploadUrl: 'http://127.0.0.1:8000/index/index/uploads?field=upload',
+      },
+      fileUploadRequest(event) {
+        console.log(event);
+      },
+      fileUploadResponse(event) {
+        console.log(event);
+      }
     }),
     RouterModule.forRoot([
       {path: '', component: HomeComponent},

@@ -42,6 +42,8 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
   @Input() locale: string;
   @Input() config: any = {};
   @Input() inline: boolean;
+  @Input() fileUploadRequestCustom = false;
+  @Input() fileUploadResponseCustom = false;
 
   @Output() ready: EventEmitter<EventInfo> = new EventEmitter();
   @Output() focus: EventEmitter<EventInfo> = new EventEmitter();
@@ -204,11 +206,19 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
       });
 
       this.editor.on('fileUploadRequest', (event) => {
-        this.fileUploadRequest.emit(event);
+        if (this.fileUploadRequestCustom) {
+          this.fileUploadRequest.emit(event);
+        } else if (this.optionsService.fileUploadRequest) {
+          this.optionsService.fileUploadRequest(event);
+        }
       });
 
       this.editor.on('fileUploadResponse', (event) => {
-        this.fileUploadResponse.emit(event);
+        if (this.fileUploadResponseCustom) {
+          this.fileUploadResponse.emit(event);
+        } else if (this.optionsService.fileUploadResponse) {
+          this.optionsService.fileUploadResponse(event);
+        }
       });
     });
   }
