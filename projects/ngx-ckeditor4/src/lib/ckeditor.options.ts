@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {EventInfo} from './eventInfo';
 
 @Injectable()
-export class OptionsService {
+export class CkeditorOptions {
   /**
    * Set the load address of ckeditor, you can use local library or remote CDN, etc.
    */

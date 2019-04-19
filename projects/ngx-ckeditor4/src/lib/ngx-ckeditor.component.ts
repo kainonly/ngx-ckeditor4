@@ -18,7 +18,7 @@ import {isObject} from 'util';
 import {AsyncSubject, Subject} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {SetupService} from './setup.service';
-import {OptionsService} from './options.service';
+import {CkeditorOptions} from './ckeditor.options';
 import {EventInfo} from './eventInfo';
 
 @Component({
@@ -59,7 +59,7 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
   private disabled: boolean;
 
   constructor(private setupService: SetupService,
-              private optionsService: OptionsService,
+              private ckeditorOptions: CkeditorOptions,
               private render: Renderer2) {
     if (!setupService.setup.getValue()) {
       setupService.loadScripts(render);
@@ -158,8 +158,8 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
       this.id = 'ckeditor_' + (Math.random() * 10000).toFixed(0);
     }
 
-    if (this.optionsService.config && isObject(this.optionsService.config)) {
-      Object.assign(this.config, this.optionsService.config);
+    if (this.ckeditorOptions.config && isObject(this.ckeditorOptions.config)) {
+      Object.assign(this.config, this.ckeditorOptions.config);
     }
 
     if (this.locale) {
@@ -208,16 +208,16 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
       this.editor.on('fileUploadRequest', (event) => {
         if (this.fileUploadRequestCustom) {
           this.fileUploadRequest.emit(event);
-        } else if (this.optionsService.fileUploadRequest) {
-          this.optionsService.fileUploadRequest(event);
+        } else if (this.ckeditorOptions.fileUploadRequest) {
+          this.ckeditorOptions.fileUploadRequest(event);
         }
       });
 
       this.editor.on('fileUploadResponse', (event) => {
         if (this.fileUploadResponseCustom) {
           this.fileUploadResponse.emit(event);
-        } else if (this.optionsService.fileUploadResponse) {
-          this.optionsService.fileUploadResponse(event);
+        } else if (this.ckeditorOptions.fileUploadResponse) {
+          this.ckeditorOptions.fileUploadResponse(event);
         }
       });
     });
