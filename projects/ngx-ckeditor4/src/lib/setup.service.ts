@@ -1,5 +1,5 @@
 import {Injectable, Renderer2} from '@angular/core';
-import {OptionsService} from './options.service';
+import {CkeditorOptions} from './ckeditor.options';
 import {AsyncSubject, BehaviorSubject, fromEvent} from 'rxjs';
 
 declare let CKEDITOR: any;
@@ -27,7 +27,7 @@ export class SetupService {
    */
   private elementScripts: HTMLElement;
 
-  constructor(private options: OptionsService) {
+  constructor(private options: CkeditorOptions) {
   }
 
   /**
