@@ -59,11 +59,7 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
   private disabled: boolean;
 
   constructor(private setupService: SetupService,
-              private ckeditorOptions: CkeditorOptions,
-              private render: Renderer2) {
-    if (!setupService.setup.getValue()) {
-      setupService.loadScripts(render);
-    }
+              private ckeditorOptions: CkeditorOptions) {
   }
 
   /**
