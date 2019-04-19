@@ -40,65 +40,60 @@ If you are using Angular CLI you can follow the [angular.json](https://cli.angul
 You must import NgxCkeditorModule inside your main application module (usually named AppModule) with forRoot to be able to use ckeditor component.`fileUploadRequest(event)` & `fileUploadResponse(event)` is general definition.
 
 ```typescript
-import { NgModule } from '@angular/core';
-+ import { NgxCkeditorModule } from 'ngx-ckeditor4';
- 
-import { AppComponent } from './app.component'
- 
 @NgModule({
   imports: [
-+   NgxCkeditorModule
-  ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent],
-  providers: [
-    {
-      provide: CkeditorOptions, useValue: {
-        url: 'https://cdn.bootcss.com/ckeditor/4.11.3/ckeditor.js',
-        config: {
-          filebrowserUploadMethod: 'xhr',
-          filebrowserUploadUrl: 'http://127.0.0.1:8000/index/index/uploads',
-        },
-        fileUploadRequest(event) {
-          try {
-            const fileLoader = event.data.fileLoader;
-            const formData = new FormData();
-            const xhr = fileLoader.xhr;
-            xhr.withCredentials = true;
-            xhr.open('POST', fileLoader.uploadUrl, true);
-            formData.append('image', fileLoader.file, fileLoader.fileName);
-            fileLoader.xhr.send(formData);
-            event.stop();
-          } catch (e) {
-            console.warn(e);
-          }
-        },
-        fileUploadResponse(event) {
-          try {
-            event.stop();
-            const data = event.data;
-            const xhr = data.fileLoader.xhr;
-            const response = JSON.parse(xhr.responseText);
-            if (response.error) {
-              data.message = 'upload fail';
-              event.cancel();
-            } else {
-              data.url = 'http://127.0.0.1:8000/uploads/' + response.data.save_name;
-            }
-          } catch (e) {
-            console.warn(e);
-          }
-        }
-      }
-    },
+    NgxCkeditorModule.forRoot({
+      url: 'https://cdn.bootcss.com/ckeditor/4.11.3/ckeditor.js',
+      config: {
+        filebrowserUploadMethod: 'xhr',
+        filebrowserUploadUrl: 'http://127.0.0.1:8000/index/index/uploads',
+      },
+    }),
   ],
 })
-export class AppModule { }
+export class AppModule {
+}
 ```
 
 You can also use CDN from [cdn.ckeditor.com](http://cdn.ckeditor.com/),The URL structure for CKEditor 4 is as follows:
 
 > `https://cdn.ckeditor.com/[version.number]/[distribution]/ckeditor.js`
+
+#### Custom Event
+
+```typescript
+this.ckeditorService.fileUploadRequest = (event) => {
+  try {
+    const fileLoader = event.data.fileLoader;
+    const formData = new FormData();
+    const xhr = fileLoader.xhr;
+    xhr.withCredentials = true;
+    xhr.open('POST', fileLoader.uploadUrl, true);
+    formData.append('image', fileLoader.file, fileLoader.fileName);
+    fileLoader.xhr.send(formData);
+    event.stop();
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
+this.ckeditorService.fileUploadResponse = (event) => {
+  try {
+    event.stop();
+    const data = event.data;
+    const xhr = data.fileLoader.xhr;
+    const response = JSON.parse(xhr.responseText);
+    if (response.error) {
+      data.message = 'upload fail';
+      event.cancel();
+    } else {
+      data.url = 'http://127.0.0.1:8000/uploads/' + response.data.save_name;
+    }
+  } catch (e) {
+    console.warn(e);
+  }
+};
+```
 
 #### Template
 
