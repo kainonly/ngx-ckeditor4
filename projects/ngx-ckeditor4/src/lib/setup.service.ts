@@ -1,6 +1,7 @@
 import {Injectable, Renderer2} from '@angular/core';
 import {CkeditorOptions} from './ckeditor.options';
 import {AsyncSubject, BehaviorSubject, fromEvent} from 'rxjs';
+import {createElement} from '@angular/core/src/view/element';
 
 declare let CKEDITOR: any;
 declare let document: Document;
@@ -33,13 +34,14 @@ export class SetupService {
   /**
    * Lazy loading ckeditor library
    */
-  loadScripts(render: Renderer2) {
+  loadScripts() {
     if (!this.elementScripts && !this.CKEDITOR) {
       this.setup.next(true);
-      this.elementScripts = render.createElement('script');
-      render.setAttribute(this.elementScripts, 'type', 'text/javascript');
-      render.setAttribute(this.elementScripts, 'src', this.options.url);
-      render.appendChild(document.body, this.elementScripts);
+
+      this.elementScripts = document.createElement('script');
+      this.elementScripts.setAttribute('type', 'text/javascript');
+      this.elementScripts.setAttribute('src', this.options.url);
+      document.body.appendChild(this.elementScripts);
       fromEvent(this.elementScripts, 'load').subscribe(() => {
         this.CKEDITOR = CKEDITOR;
         this.loaded.next(null);
