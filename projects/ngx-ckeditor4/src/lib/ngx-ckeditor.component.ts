@@ -9,7 +9,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  Renderer2,
   SimpleChanges,
   ViewChild
 } from '@angular/core';
@@ -18,8 +17,9 @@ import {isObject} from 'util';
 import {AsyncSubject, Subject} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {SetupService} from './setup.service';
-import {CkeditorOptions} from './ckeditor.options';
+import {OptionsService} from './options.service';
 import {EventInfo} from './eventInfo';
+import {CkeditorService} from './ckeditor.service';
 
 @Component({
   selector: 'ngx-ckeditor',
@@ -59,7 +59,8 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
   private disabled: boolean;
 
   constructor(private setupService: SetupService,
-              private ckeditorOptions: CkeditorOptions) {
+              private optionsService: OptionsService,
+              private ckeditorService: CkeditorService) {
   }
 
   /**
@@ -154,8 +155,8 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
       this.id = 'ckeditor_' + (Math.random() * 10000).toFixed(0);
     }
 
-    if (this.ckeditorOptions.config && isObject(this.ckeditorOptions.config)) {
-      Object.assign(this.config, this.ckeditorOptions.config);
+    if (this.optionsService.config && isObject(this.optionsService.config)) {
+      Object.assign(this.config, this.optionsService.config);
     }
 
     if (this.locale) {
@@ -204,16 +205,16 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
       this.editor.on('fileUploadRequest', (event) => {
         if (this.fileUploadRequestCustom) {
           this.fileUploadRequest.emit(event);
-        } else if (this.ckeditorOptions.fileUploadRequest) {
-          this.ckeditorOptions.fileUploadRequest(event);
+        } else if (this.ckeditorService.fileUploadRequest) {
+          this.ckeditorService.fileUploadRequest(event);
         }
       });
 
       this.editor.on('fileUploadResponse', (event) => {
         if (this.fileUploadResponseCustom) {
           this.fileUploadResponse.emit(event);
-        } else if (this.ckeditorOptions.fileUploadResponse) {
-          this.ckeditorOptions.fileUploadResponse(event);
+        } else if (this.ckeditorService.fileUploadResponse) {
+          this.ckeditorService.fileUploadResponse(event);
         }
       });
     });

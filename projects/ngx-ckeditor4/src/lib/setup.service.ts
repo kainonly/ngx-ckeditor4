@@ -1,7 +1,6 @@
-import {Injectable, Renderer2} from '@angular/core';
-import {CkeditorOptions} from './ckeditor.options';
+import {Injectable} from '@angular/core';
+import {OptionsService} from './options.service';
 import {AsyncSubject, BehaviorSubject, fromEvent} from 'rxjs';
-import {createElement} from '@angular/core/src/view/element';
 
 declare let CKEDITOR: any;
 declare let document: Document;
@@ -11,7 +10,7 @@ export class SetupService {
   /**
    * Used to determine whether to install
    */
-  setup: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  setup = false;
 
   /**
    * Judge loading status
@@ -28,7 +27,7 @@ export class SetupService {
    */
   private elementScripts: HTMLElement;
 
-  constructor(private options: CkeditorOptions) {
+  constructor(private options: OptionsService) {
   }
 
   /**
@@ -36,7 +35,7 @@ export class SetupService {
    */
   loadScripts() {
     if (!this.elementScripts && !this.CKEDITOR) {
-      this.setup.next(true);
+      this.setup = true;
 
       this.elementScripts = document.createElement('script');
       this.elementScripts.setAttribute('type', 'text/javascript');
