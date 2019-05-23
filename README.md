@@ -1,8 +1,8 @@
 ## NGX-CKEDITOR 4
 
-![npm](https://img.shields.io/npm/v/ngx-ckeditor4.svg?style=flat-square)
-![Downloads](https://img.shields.io/npm/dm/ngx-ckeditor4.svg?style=flat-square)
-![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg?style=flat-square)
+[![npm](https://img.shields.io/npm/v/ngx-ckeditor4.svg?style=flat-square)](https://www.npmjs.com/package/ngx-ckeditor4)
+[![Downloads](https://img.shields.io/npm/dm/ngx-ckeditor4.svg?style=flat-square)](https://www.npmjs.com/package/ngx-ckeditor4)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg?style=flat-square)](https://www.npmjs.com/package/ngx-ckeditor4)
 [![GitHub license](https://img.shields.io/badge/license-LGPL2.1-blue.svg?style=flat-square)](https://raw.githubusercontent.com/kainonly/ngx-ckeditor4.js/master/LICENSE)
 
 #### NPM Package
