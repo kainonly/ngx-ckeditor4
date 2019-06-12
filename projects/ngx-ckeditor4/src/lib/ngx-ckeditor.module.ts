@@ -24,10 +24,4 @@ export class NgxCkeditorModule {
       ],
     };
   }
-
-  constructor(setupService: SetupService) {
-    if (!setupService.setup) {
-      setupService.loadScripts();
-    }
-  }
 }
