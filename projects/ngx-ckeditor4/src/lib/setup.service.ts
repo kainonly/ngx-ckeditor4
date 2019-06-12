@@ -1,17 +1,13 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {OptionsService} from './options.service';
-import {AsyncSubject, BehaviorSubject, fromEvent} from 'rxjs';
+import {AsyncSubject, fromEvent} from 'rxjs';
+import {isPlatformBrowser} from '@angular/common';
 
 declare let CKEDITOR: any;
 declare let document: Document;
 
 @Injectable()
 export class SetupService {
-  /**
-   * Used to determine whether to install
-   */
-  setup = false;
-
   /**
    * Judge loading status
    */
@@ -27,19 +23,14 @@ export class SetupService {
    */
   private elementScripts: HTMLElement;
 
-  constructor(private options: OptionsService) {
-  }
-
-  /**
-   * Lazy loading ckeditor library
-   */
-  loadScripts() {
-    if (!this.elementScripts && !this.CKEDITOR) {
-      this.setup = true;
-
+  constructor(
+    @Inject(PLATFORM_ID) platformId,
+    options: OptionsService
+  ) {
+    if (isPlatformBrowser(platformId) && !this.elementScripts && !this.CKEDITOR) {
       this.elementScripts = document.createElement('script');
       this.elementScripts.setAttribute('type', 'text/javascript');
-      this.elementScripts.setAttribute('src', this.options.url);
+      this.elementScripts.setAttribute('src', options.url);
       document.body.appendChild(this.elementScripts);
       fromEvent(this.elementScripts, 'load').subscribe(() => {
         this.CKEDITOR = CKEDITOR;

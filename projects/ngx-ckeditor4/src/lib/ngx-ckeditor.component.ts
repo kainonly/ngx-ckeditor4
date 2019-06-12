@@ -58,9 +58,11 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
   private onTouched: () => void;
   private disabled: boolean;
 
-  constructor(private setupService: SetupService,
-              private optionsService: OptionsService,
-              private ckeditorService: CkeditorService) {
+  constructor(
+    private setupService: SetupService,
+    private optionsService: OptionsService,
+    private ckeditorService: CkeditorService
+  ) {
   }
 
   /**
