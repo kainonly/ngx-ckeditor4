@@ -4,7 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
-  Input,
+  Input, NgZone,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -25,7 +25,7 @@ import {CkeditorService} from './ckeditor.service';
   selector: 'ngx-ckeditor',
   template: `<textarea #htmlTextAreaElement [id]="id"></textarea>`,
   styles: [`textarea {
-    display: none;
+      display: none;
   }`],
   providers: [
     {
@@ -61,7 +61,8 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
   constructor(
     private setupService: SetupService,
     private optionsService: OptionsService,
-    private ckeditorService: CkeditorService
+    private ckeditorService: CkeditorService,
+    private ngZone: NgZone
   ) {
   }
 
@@ -183,41 +184,55 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
         this.editor.config.readOnly = this.disabled;
       }
 
-      this.editor.on('instanceReady', (event) => {
-        this.ready.emit(event);
-        this.editorReady.next(null);
-        this.editorReady.complete();
-      });
+      this.ngZone.runOutsideAngular(() => {
+        this.editor.on('instanceReady', (event) => {
+          this.ngZone.run(() => {
+            this.ready.emit(event);
+            this.editorReady.next(null);
+            this.editorReady.complete();
+          });
+        });
 
-      this.editor.on('change', (event) => {
-        this.editorChangeEvents.next(event);
-      });
+        this.editor.on('change', (event) => {
+          this.ngZone.run(() => {
+            this.editorChangeEvents.next(event);
+          });
+        });
 
-      this.editor.on('focus', (event) => {
-        this.focus.emit(event);
-      });
+        this.editor.on('focus', (event) => {
+          this.ngZone.run(() => {
+            this.focus.emit(event);
+          });
+        });
 
-      this.editor.on('blur', (event) => {
-        this.blur.emit(event);
-        if (this.onTouched) {
-          this.onTouched();
-        }
-      });
+        this.editor.on('blur', (event) => {
+          this.ngZone.run(() => {
+            this.blur.emit(event);
+            if (this.onTouched) {
+              this.onTouched();
+            }
+          });
+        });
 
-      this.editor.on('fileUploadRequest', (event) => {
-        if (this.fileUploadRequestCustom) {
-          this.fileUploadRequest.emit(event);
-        } else if (this.ckeditorService.fileUploadRequest) {
-          this.ckeditorService.fileUploadRequest(event);
-        }
-      });
+        this.editor.on('fileUploadRequest', (event) => {
+          this.ngZone.run(() => {
+            if (this.fileUploadRequestCustom) {
+              this.fileUploadRequest.emit(event);
+            } else if (this.ckeditorService.fileUploadRequest) {
+              this.ckeditorService.fileUploadRequest(event);
+            }
+          });
+        });
 
-      this.editor.on('fileUploadResponse', (event) => {
-        if (this.fileUploadResponseCustom) {
-          this.fileUploadResponse.emit(event);
-        } else if (this.ckeditorService.fileUploadResponse) {
-          this.ckeditorService.fileUploadResponse(event);
-        }
+        this.editor.on('fileUploadResponse', (event) => {
+          this.ngZone.run(() => {
+            if (this.fileUploadResponseCustom) {
+              this.fileUploadResponse.emit(event);
+            } else if (this.ckeditorService.fileUploadResponse) {
+              this.ckeditorService.fileUploadResponse(event);
+            }
+          });
+        });
       });
     });
   }
