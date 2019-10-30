@@ -22,4 +22,9 @@ export class FormComponent implements OnInit {
     console.log(this.form.value);
   }
 
+  reset() {
+    this.form.reset();
+    console.log(this.form.value);
+  }
+
 }

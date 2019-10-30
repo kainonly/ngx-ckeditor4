@@ -20,14 +20,8 @@
       "dom"
     ],
     "paths": {
-      //      "ngx-ckeditor4": [
-      //        "projects/ngx-ckeditor4/src/public-api.ts"
-      //      ],
       "ngx-ckeditor4": [
-        "dist/ngx-ckeditor4"
-      ],
-      "ngx-ckeditor4/*": [
-        "dist/ngx-ckeditor4/*"
+        "projects/ngx-ckeditor4/src/public-api.ts"
       ]
     }
   }

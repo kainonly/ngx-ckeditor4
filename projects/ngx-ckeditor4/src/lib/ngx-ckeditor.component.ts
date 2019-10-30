@@ -12,7 +12,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {NG_VALUE_ACCESSOR} from '@angular/forms';
+import {FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {isObject} from 'util';
 import {AsyncSubject, Subject} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
@@ -36,7 +36,7 @@ import {CkeditorService} from './ckeditor.service';
   ],
 })
 export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
-  @ViewChild('htmlTextAreaElement', { static: true }) htmlTextAreaElement: ElementRef;
+  @ViewChild('htmlTextAreaElement', {static: true}) htmlTextAreaElement: ElementRef;
 
   @Input() id: string;
   @Input() locale: string;
@@ -71,6 +71,9 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
    */
   writeValue(value: string) {
     if (!value) {
+      if (this.editor) {
+        this.editor.setData('');
+      }
       return;
     }
     this.editorReady.subscribe(() => {
