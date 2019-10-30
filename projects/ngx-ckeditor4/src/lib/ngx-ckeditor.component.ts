@@ -36,7 +36,7 @@ import {CkeditorService} from './ckeditor.service';
   ],
 })
 export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
-  @ViewChild('htmlTextAreaElement') htmlTextAreaElement: ElementRef;
+  @ViewChild('htmlTextAreaElement', { static: true }) htmlTextAreaElement: ElementRef;
 
   @Input() id: string;
   @Input() locale: string;
