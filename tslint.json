@@ -1,7 +1,8 @@
 {
   "extends": "tslint:recommended",
   "rulesDirectory": [
-    "codelyzer"
+    "codelyzer",
+    "node_modules/nz-tslint-rules"
   ],
   "rules": {
     "align": {
@@ -133,6 +134,7 @@
         "check-type",
         "check-typecast"
       ]
-    }
+    },
+    "nz-secondary-entry-imports": true
   }
 }

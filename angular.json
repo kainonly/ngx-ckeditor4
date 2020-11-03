@@ -31,7 +31,11 @@
               "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "@ant-design/colors",
+              "ajv"
+            ]
           },
           "configurations": {
             "production": {
@@ -152,13 +156,13 @@
           "options": {
             "tsConfig": "projects/ngx-ckeditor4/tsconfig.lib.json",
             "project": "projects/ngx-ckeditor4/ng-package.json"
-          }
-        ,          "configurations": {
+          },
+          "configurations": {
             "production": {
               "tsConfig": "projects/ngx-ckeditor4/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -182,5 +186,8 @@
       }
     }
   },
-  "defaultProject": "ngx-ckeditor4-dev"
+  "defaultProject": "ngx-ckeditor4-dev",
+  "cli": {
+    "analytics": false
+  }
 }

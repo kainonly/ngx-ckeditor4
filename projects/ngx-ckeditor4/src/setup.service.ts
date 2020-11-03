@@ -1,7 +1,7 @@
-import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {OptionsService} from './options.service';
-import {AsyncSubject, fromEvent} from 'rxjs';
-import {isPlatformBrowser} from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { OptionsService } from './options.service';
+import { AsyncSubject, fromEvent } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 declare let CKEDITOR: any;
 declare let document: Document;
