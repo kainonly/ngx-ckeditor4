@@ -21,6 +21,9 @@
     "url": "https://github.com/kainonly/ngx-ckeditor4/issues"
   },
   "homepage": "https://github.com/kainonly/ngx-ckeditor4",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
     "@angular/common": "*",
     "@angular/core": "*"
