@@ -12,31 +12,30 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {isObject} from 'util';
-import {AsyncSubject, Subject} from 'rxjs';
-import {debounceTime, map} from 'rxjs/operators';
-import {SetupService} from './setup.service';
-import {OptionsService} from './options.service';
-import {EventInfo} from './eventInfo';
-import {CkeditorService} from './ckeditor.service';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AsyncSubject, Subject } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
+import { SetupService } from './setup.service';
+import { OptionsService } from './options.service';
+import { EventInfo } from './eventInfo';
+import { CkeditorService } from './ckeditor.service';
 
 @Component({
   selector: 'ngx-ckeditor',
   template: `<textarea #htmlTextAreaElement [id]="id"></textarea>`,
   styles: [`textarea {
-      display: none;
+    display: none;
   }`],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => NgxCkeditorComponent),
-      multi: true,
-    },
-  ],
+      multi: true
+    }
+  ]
 })
 export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
-  @ViewChild('htmlTextAreaElement', {static: true}) htmlTextAreaElement: ElementRef;
+  @ViewChild('htmlTextAreaElement', { static: true }) htmlTextAreaElement: ElementRef;
 
   @Input() id: string;
   @Input() locale: string;
@@ -161,7 +160,7 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
       this.id = 'ckeditor_' + (Math.random() * 10000).toFixed(0);
     }
 
-    if (this.optionsService.config && isObject(this.optionsService.config)) {
+    if (this.optionsService.config) {
       Object.assign(this.config, this.optionsService.config);
     }
 

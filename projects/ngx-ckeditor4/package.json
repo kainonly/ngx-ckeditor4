@@ -1,6 +1,10 @@
 {
   "name": "ngx-ckeditor4",
   "version": "1.7.4",
+  "peerDependencies": {
+    "@angular/common": "^10.0.0",
+    "@angular/core": "^10.0.0"
+  },
   "license": "LGPL-2.1",
   "keywords": [
     "angular-ckeditor",
@@ -20,12 +24,5 @@
   "bugs": {
     "url": "https://github.com/kainonly/ngx-ckeditor4/issues"
   },
-  "homepage": "https://github.com/kainonly/ngx-ckeditor4",
-  "dependencies": {
-    "tslib": "^2.0.0"
-  },
-  "peerDependencies": {
-    "@angular/common": "*",
-    "@angular/core": "*"
-  }
+  "homepage": "https://github.com/kainonly/ngx-ckeditor4"
 }

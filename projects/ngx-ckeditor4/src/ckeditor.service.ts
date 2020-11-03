@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {EventInfo} from './eventInfo';
+import { Injectable } from '@angular/core';
+import { EventInfo } from './eventInfo';
 
 @Injectable()
 export class CkeditorService {
