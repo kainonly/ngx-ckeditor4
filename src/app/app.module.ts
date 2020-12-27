@@ -59,7 +59,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
       { path: 'config', component: ConfigComponent },
       { path: 'form', component: FormComponent },
       { path: 'upload', component: UploadComponent }
-    ], { useHash: true })
+    ], { useHash: true, relativeLinkResolution: 'legacy' })
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US }
