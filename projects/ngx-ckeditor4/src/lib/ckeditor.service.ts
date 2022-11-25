@@ -6,7 +6,7 @@ import { delay } from "rxjs/operators";
 
 @Injectable()
 export class CkeditorService {
-  constructor(@Inject(OPTION) public readonly option: Option, @Inject(DOCUMENT) private document: Document) {}
+  constructor(@Inject(OPTION) public readonly option: Option, @Inject(DOCUMENT) private document: any) {}
 
   fileUploadRequest?(event: EventInfo): void;
 

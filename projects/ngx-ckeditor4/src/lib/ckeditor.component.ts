@@ -146,7 +146,6 @@ export class CkeditorComponent implements OnInit, AfterViewInit, OnChanges, OnDe
 
   /**
    * 初始化
-   * @private
    */
   private initialize(): void {
     this.zone.runOutsideAngular(() => {
@@ -244,8 +243,6 @@ export class CkeditorComponent implements OnInit, AfterViewInit, OnChanges, OnDe
 
   /**
    * 设置语言包
-   * @param locale
-   * @private
    */
   private setLanguage(locale: string) {
     switch (locale) {
