@@ -1,20 +1,20 @@
 import { ModuleWithProviders, NgModule } from "@angular/core";
 
-import { CkeditorComponent } from "./ckeditor.component";
-import { CkeditorService } from "./ckeditor.service";
+import { NgxCkeditorComponent } from "./ckeditor.component";
+import { NgxCkeditorService } from "./ckeditor.service";
 import { OPTION, Option } from "./types";
 import { CommonModule } from "@angular/common";
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [CkeditorComponent],
-  exports: [CkeditorComponent]
+  declarations: [NgxCkeditorComponent],
+  exports: [NgxCkeditorComponent]
 })
-export class CkeditorModule {
-  static forRoot(option: Option): ModuleWithProviders<CkeditorModule> {
+export class NgxCkeditorModule {
+  static forRoot(option: Option): ModuleWithProviders<NgxCkeditorModule> {
     return {
-      ngModule: CkeditorModule,
-      providers: [{ provide: OPTION, useValue: option }, CkeditorService]
+      ngModule: NgxCkeditorModule,
+      providers: [{ provide: OPTION, useValue: option }, NgxCkeditorService]
     };
   }
 }

@@ -19,8 +19,8 @@ import {
 } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { BehaviorSubject } from "rxjs";
-import { auditTime, map, switchMap, take } from "rxjs/operators";
-import { CkeditorService } from "./ckeditor.service";
+import { auditTime, switchMap, take } from "rxjs/operators";
+import { NgxCkeditorService } from "./ckeditor.service";
 import { isPlatformBrowser } from "@angular/common";
 import { EventInfo } from "./types";
 
@@ -33,14 +33,14 @@ const windowAny: any = window;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CkeditorComponent),
+      useExisting: forwardRef(() => NgxCkeditorComponent),
       multi: true
     }
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CkeditorComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @ViewChild("ref") ref: ElementRef;
 
   @Input() id: string;
@@ -66,7 +66,7 @@ export class CkeditorComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   constructor(
     @Inject(PLATFORM_ID)
     private platformId: string,
-    private ckeditor: CkeditorService,
+    private ckeditor: NgxCkeditorService,
     private zone: NgZone
   ) {}
 
