@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {CkeditorService} from 'ngx-ckeditor4';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { CkeditorService } from 'ngx-ckeditor4';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +13,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   activePath = '/';
   routerlinks = [
-    {path: '/', label: 'Hello Ckeditor'},
-    {path: '/config', label: 'Dynamic Config'},
-    {path: '/form', label: 'In Form'},
-    {path: '/upload', label: 'Upload'},
+    { path: '/', label: 'Hello Ckeditor' },
+    { path: '/config', label: 'Dynamic Config' },
+    { path: '/form', label: 'In Form' },
+    { path: '/upload', label: 'Upload' }
   ];
 
   constructor(private router: Router,

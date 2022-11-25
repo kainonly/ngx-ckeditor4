@@ -12,6 +12,12 @@
     </nz-radio-group>
   </nz-form-item>
   <nz-form-item>
-    <ngx-ckeditor [(ngModel)]="text" [inline]="inline" [disabled]="disabled"></ngx-ckeditor>
+    <ngx-ckeditor
+      [(ngModel)]="text"
+      (ngModelChange)="change($event)"
+      (ready)="ready($event)"
+      [inline]="inline"
+      [disabled]="disabled"
+    ></ngx-ckeditor>
   </nz-form-item>
 </nz-card>

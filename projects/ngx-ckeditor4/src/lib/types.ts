@@ -1,3 +1,25 @@
+import { InjectionToken } from "@angular/core";
+
+export const OPTION = new InjectionToken<Option>("ckeditor.option");
+
+export interface Option {
+  /**
+   * Set the load address of ckeditor, you can use local library or remote CDN, etc.
+   */
+  url: string;
+
+  /**
+   * Set the master configuration of ckeditor
+   */
+  config?: {
+    skin?: string;
+    height?: number;
+    filebrowserUploadMethod?: string;
+    filebrowserUploadUrl?: string;
+    [key: string]: any;
+  };
+}
+
 export interface EventInfo {
   /**
    * Any kind of additional data. Its format and usage is event dependent.
