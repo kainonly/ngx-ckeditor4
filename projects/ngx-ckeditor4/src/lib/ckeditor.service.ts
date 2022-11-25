@@ -5,7 +5,7 @@ import { fromEvent, Observable } from "rxjs";
 import { delay } from "rxjs/operators";
 
 @Injectable()
-export class CkeditorService {
+export class NgxCkeditorService {
   constructor(@Inject(OPTION) public readonly option: Option, @Inject(DOCUMENT) private document: any) {}
 
   fileUploadRequest?(event: EventInfo): void;
