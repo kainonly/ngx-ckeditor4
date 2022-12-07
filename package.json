@@ -2,11 +2,8 @@
   "name": "ngx-ckeditor4-dev",
   "scripts": {
     "start": "ng serve",
-    "docs": "docsify serve docs",
     "build": "ng build ngx-ckeditor4",
-    "release": "cd dist/ngx-ckeditor4 && npm publish",
-    "build:dev": "ng build --prod --buildOptimizer",
-    "serve": "http-server -p 8080 -c-1 dist/ngx-ckeditor4-dev"
+    "release": "cd dist/ngx-ckeditor4 && npm publish --tag v8-lts"
   },
   "private": true,
   "dependencies": {
