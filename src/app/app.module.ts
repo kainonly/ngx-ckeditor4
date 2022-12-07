@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {NgxCkeditorModule} from 'ngx-ckeditor4';
+import {CkeditorModule} from 'ngx-ckeditor4';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgZorroAntdModule, NZ_I18N, en_US} from 'ng-zorro-antd';
 import {HttpClientModule} from '@angular/common/http';
@@ -33,7 +33,7 @@ import {UploadComponent} from './upload/upload.component';
     NgZorroAntdModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    NgxCkeditorModule.forRoot({
+    CkeditorModule.forRoot({
       url: 'https://cdn.bootcss.com/ckeditor/4.11.3/ckeditor.js',
       config: {
         filebrowserUploadMethod: 'xhr',
