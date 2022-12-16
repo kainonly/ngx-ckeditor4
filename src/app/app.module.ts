@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { CkeditorModule } from "ngx-ckeditor4";
+import { NgxCkeditorModule } from "ngx-ckeditor4";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NZ_I18N, en_US, NgZorroAntdModule } from "ng-zorro-antd";
 import { HttpClientModule } from "@angular/common/http";
@@ -26,7 +26,7 @@ import { UploadComponent } from "./upload/upload.component";
     ReactiveFormsModule,
     HttpClientModule,
     NgZorroAntdModule,
-    CkeditorModule.forRoot({
+    NgxCkeditorModule.forRoot({
       url: "https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/ckeditor/4.17.2/ckeditor.js",
       config: {
         filebrowserUploadMethod: "xhr",
@@ -46,4 +46,5 @@ import { UploadComponent } from "./upload/upload.component";
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

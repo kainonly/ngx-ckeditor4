@@ -207,7 +207,7 @@ export class NgxCkeditorComponent implements OnInit, AfterViewInit, OnChanges, O
         auditTime(200)
       )
       .subscribe(data => {
-        this.onChange(data);
+        this.onChange(data.replace(/\n/g, ''));
       });
   }
 
